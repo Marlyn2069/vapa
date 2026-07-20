@@ -1,51 +1,117 @@
 const scholarships = [
   {
+    slug: "becas-mescyt",
     title: "Becas MESCyT",
     region: "dominicana",
     type: "Gobierno",
     level: "Licenciatura",
     description:
       "Opciones para estudios nacionales e internacionales con apoyo institucional.",
+    audience: "Estudiantes dominicanos que buscan apoyo público para pregrado, posgrado o especialidades.",
+    benefits: ["Cobertura académica", "Oportunidades nacionales e internacionales", "Convocatorias oficiales"],
+    documents: ["Récord académico", "Cédula o pasaporte", "Carta de motivación", "Currículum vitae"],
+    steps: [
+      "Revisa la convocatoria vigente.",
+      "Confirma que cumples el perfil académico.",
+      "Reúne tu expediente y cartas solicitadas.",
+      "Completa el formulario y guarda el comprobante.",
+    ],
+    tip: "Sigue siempre el portal oficial para evitar fechas o documentos desactualizados.",
   },
   {
+    slug: "beca-tu-futuro",
     title: "Beca Tu Futuro",
     region: "dominicana",
     type: "Programa oficial",
     level: "Pregrado",
     description:
       "Convocatorias enfocadas en estudiantes dominicanos con alto potencial académico.",
+    audience: "Jóvenes que quieren acceder a programas de apoyo educativo dentro del país.",
+    benefits: ["Apoyo para estudios", "Orientación de convocatoria", "Acceso a múltiples opciones"],
+    documents: ["Expediente académico", "Documento de identidad", "Carta de intención", "Formulario oficial"],
+    steps: [
+      "Busca la convocatoria activa.",
+      "Verifica requisitos y condiciones.",
+      "Prepara tus documentos.",
+      "Aplica y revisa tu correo regularmente.",
+    ],
+    tip: "Ten a mano tus datos personales y académicos antes de completar la solicitud.",
   },
   {
+    slug: "itla",
     title: "ITLA",
     region: "dominicana",
     type: "Universidad",
     level: "Técnico / Grado",
     description:
       "Oportunidades tecnológicas como ciberseguridad, software y áreas STEM.",
+    audience: "Personas interesadas en carreras tecnológicas, innovación y formación práctica.",
+    benefits: ["Carreras STEM", "Enfoque técnico", "Proyección laboral"],
+    documents: ["Récord académico", "Documento de identidad", "Pruebas o formularios internos", "Carta motivacional"],
+    steps: [
+      "Consulta la oferta de carreras o becas.",
+      "Revisa requisitos de admisión.",
+      "Prepara tu expediente.",
+      "Sigue el proceso de selección indicado.",
+    ],
+    tip: "Si te interesa tecnología, esta opción suele ser una de las más útiles para empezar.",
   },
   {
+    slug: "intec",
     title: "INTEC",
     region: "dominicana",
     type: "Universidad",
     level: "Licenciatura",
     description:
       "Becas y ayudas para carreras de alto rendimiento académico y liderazgo.",
+    audience: "Estudiantes con buen rendimiento que buscan una universidad exigente y de alto nivel.",
+    benefits: ["Becas parciales o completas", "Red de liderazgo", "Programas académicos sólidos"],
+    documents: ["Expediente académico", "Ensayo o carta", "Documento de identidad", "Cartas de recomendación"],
+    steps: [
+      "Identifica la beca o admisión que más te conviene.",
+      "Prepara tus documentos y ensayos.",
+      "Aplica dentro de la fecha límite.",
+      "Haz seguimiento al resultado.",
+    ],
+    tip: "Tu promedio y tu historia personal pueden pesar mucho en esta clase de convocatorias.",
   },
   {
+    slug: "canada-latinoamericanos",
     title: "Canadá para latinoamericanos",
     region: "internacional",
     type: "Internacional",
     level: "Maestría",
     description:
       "Convocatorias para posgrado con enfoque en investigación, ciencia y tecnología.",
+    audience: "Personas que buscan estudios de posgrado en el extranjero con foco académico e investigativo.",
+    benefits: ["Experiencia internacional", "Formación de posgrado", "Red académica global"],
+    documents: ["Pasaporte", "Certificados de idioma", "CV académico", "Carta de motivación"],
+    steps: [
+      "Busca programas vigentes en portales confiables.",
+      "Revisa idioma, admisión y fondos disponibles.",
+      "Reúne tus certificados y traducciones.",
+      "Aplica con tiempo y guarda evidencia.",
+    ],
+    tip: "Las becas internacionales suelen pedir más preparación previa, así que conviene empezar temprano.",
   },
   {
+    slug: "fondos-liderazgo",
     title: "Fondos de liderazgo",
     region: "fundacion",
     type: "Fundación",
     level: "Pregrado",
     description:
       "Apoyos que valoran voluntariado, deportes, clubes y compromiso social.",
+    audience: "Estudiantes que destacan por liderazgo, servicio y participación extracurricular.",
+    benefits: ["Reconocimiento al liderazgo", "Apoyo a proyectos", "Mayor valor de actividades sociales"],
+    documents: ["Carta de motivación", "Evidencias de liderazgo", "CV actualizado", "Referencias"],
+    steps: [
+      "Agrupa tus logros y evidencias.",
+      "Redacta una historia clara sobre tu liderazgo.",
+      "Aplica a la fundación u organización.",
+      "Da seguimiento y mantente activo.",
+    ],
+    tip: "No solo cuentan las notas: también importa lo que has construido fuera del aula.",
   },
 ];
 
@@ -117,6 +183,7 @@ const routes = {
   intro: renderIntro,
   perfil: renderProfile,
   buscar: renderSearch,
+  beca: renderScholarshipDetail,
   documentos: renderDocuments,
   seguimiento: renderFollowUp,
   recursos: renderResources,
@@ -130,10 +197,28 @@ function navigate(route) {
 
 function getRoute() {
   const raw = window.location.hash.replace(/^#\//, "");
+  if (raw.startsWith("beca/")) {
+    return "beca";
+  }
   return routes[raw] ? raw : "inicio";
 }
 
-function layout(title, subtitle, content, navRoute = getRoute()) {
+function getRouteParam() {
+  const raw = window.location.hash.replace(/^#\//, "");
+  if (raw.startsWith("beca/")) {
+    return raw.slice("beca/".length);
+  }
+  return "";
+}
+
+function activeNavRoute(route = getRoute()) {
+  if (route === "beca") {
+    return "buscar";
+  }
+  return route;
+}
+
+function layout(title, subtitle, content, navRoute = activeNavRoute()) {
   const user = getCurrentUser();
   return `
     <div class="shell">
@@ -636,18 +721,101 @@ function renderScholarshipCards() {
   return filtered
     .map(
       (item) => `
-        <article class="scholarship-card">
+        <button type="button" class="scholarship-card scholarship-card-action" data-route="beca/${item.slug}">
           <div class="meta-row">
-            <span>${item.region}</span>
-            <span>${item.type}</span>
-            <span>${item.level}</span>
+            <span>${escapeHtml(item.region)}</span>
+            <span>${escapeHtml(item.type)}</span>
+            <span>${escapeHtml(item.level)}</span>
           </div>
-          <h4>${item.title}</h4>
-          <p>${item.description}</p>
-        </article>
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.description)}</p>
+          <span class="card-link">Ver detalle</span>
+        </button>
       `,
     )
     .join("");
+}
+
+function getScholarshipBySlug(slug) {
+  return scholarships.find((item) => item.slug === slug) || null;
+}
+
+function renderScholarshipDetail() {
+  const slug = getRouteParam();
+  const scholarship = getScholarshipBySlug(slug);
+
+  if (!scholarship) {
+    return layout(
+      "Beca",
+      "No encontramos esa beca",
+      `
+        <div class="panel-box detail-empty">
+          <p class="panel-text">Esa beca no está disponible ahora mismo o el enlace no es válido.</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+            <button class="btn btn-secondary" type="button" data-route="inicio">Ir al inicio</button>
+          </div>
+        </div>
+      `,
+      "buscar",
+    );
+  }
+
+  return layout(
+    scholarship.title,
+    "Detalle de la beca",
+    `
+      <div class="detail-shell">
+        <article class="panel-box scholarship-hero">
+          <div class="hero-topline">
+            <span class="pill">${escapeHtml(scholarship.region)}</span>
+            <span class="pill">${escapeHtml(scholarship.type)}</span>
+            <span class="pill">${escapeHtml(scholarship.level)}</span>
+          </div>
+          <h3>${escapeHtml(scholarship.title)}</h3>
+          <p class="panel-text">${escapeHtml(scholarship.description)}</p>
+          <p class="detail-audience">${escapeHtml(scholarship.audience)}</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+            <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
+          </div>
+        </article>
+
+        <div class="detail-grid">
+          <article class="panel-box">
+            <h4>Beneficios</h4>
+            <ul class="detail-list">
+              ${scholarship.benefits.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </article>
+
+          <article class="panel-box">
+            <h4>Documentos clave</h4>
+            <ul class="detail-list">
+              ${scholarship.documents.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </article>
+
+          <article class="panel-box">
+            <h4>Cómo aplicar</h4>
+            <ol class="detail-steps">
+              ${scholarship.steps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ol>
+          </article>
+
+          <article class="panel-box accent">
+            <h4>Consejo rápido</h4>
+            <p class="panel-text">${escapeHtml(scholarship.tip)}</p>
+            <div class="detail-note">
+              <strong>Recomendación</strong>
+              <span>Guarda el enlace, revisa fechas y prepara tu expediente antes de empezar.</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    `,
+    "buscar",
+  );
 }
 
 function escapeHtml(value) {
@@ -815,6 +983,12 @@ function updateTitle(route) {
     login: "Iniciar sesión | VAPA",
     register: "Registrarse | VAPA",
   };
+
+  if (route === "beca") {
+    const scholarship = getScholarshipBySlug(getRouteParam());
+    document.title = scholarship ? `${scholarship.title} | VAPA` : "Beca | VAPA";
+    return;
+  }
 
   document.title = titles[route] || "VAPA | Becas";
 }
