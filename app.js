@@ -111,7 +111,8 @@ function getCurrentUser() {
 }
 
 const routes = {
-  home: renderHome,
+  inicio: renderInicio,
+  home: renderInicio,
   dashboard: renderDashboard,
   intro: renderIntro,
   perfil: renderProfile,
@@ -129,7 +130,7 @@ function navigate(route) {
 
 function getRoute() {
   const raw = window.location.hash.replace(/^#\//, "");
-  return routes[raw] ? raw : "home";
+  return routes[raw] ? raw : "inicio";
 }
 
 function layout(title, subtitle, content, navRoute = getRoute()) {
@@ -148,7 +149,7 @@ function layout(title, subtitle, content, navRoute = getRoute()) {
             }
           </div>
           <div class="header-actions">
-            <button class="ghost-btn" type="button" data-route="home">Volver al inicio</button>
+            <button class="ghost-btn" type="button" data-route="inicio">Volver al inicio</button>
             ${
               user
                 ? `<button class="ghost-btn danger" type="button" data-action="logout">Salir</button>`
@@ -160,11 +161,10 @@ function layout(title, subtitle, content, navRoute = getRoute()) {
       </section>
 
       <nav class="bottom-nav" aria-label="Navegación de la app">
-        ${navItem("home", "Inicio", navRoute)}
+        ${navItem("inicio", "Inicio", navRoute)}
         ${navItem("dashboard", "Cuenta", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
-        ${navItem("login", "Cuenta", navRoute)}
       </nav>
     </div>
   `;
@@ -174,45 +174,30 @@ function navItem(route, label, activeRoute) {
   return `<button type="button" class="bottom-link ${route === activeRoute ? "active" : ""}" data-route="${route}">${label}</button>`;
 }
 
-function renderHome() {
+function renderInicio() {
   const user = getCurrentUser();
   return `
-    <div class="home-grid">
+    <div class="inicio-grid">
       <section class="hero-card reveal">
         <div class="hero-copy">
-          <span class="pill">Tu espacio para crecer, aprender y alcanzar tus sueños</span>
-          <h2>Encuentra, comprende y solicita becas con una guía clara y visual.</h2>
+          <span class="pill">Visualiza • Aprende • Progresa • Avanza</span>
+          <h2>Tu guía práctica para encontrar y solicitar becas.</h2>
           <p class="lead">
-            La experiencia ahora funciona como una app: cada sección vive en su propia vista,
-            con acceso rápido a login, registro, búsqueda y seguimiento.
+            Aquí empiezas con una vista clara: identificas tu perfil, buscas en fuentes
+            confiables, organizas documentos y haces seguimiento sin perderte entre pantallas.
           </p>
 
           ${
             user
-              ? `<p class="account-chip">Hola, ${escapeHtml(user.name || user.email)}. Ya tienes sesión iniciada.</p>`
-              : `<p class="account-chip muted">Puedes crear una cuenta o iniciar sesión para guardar tu progreso.</p>`
+              ? `<p class="account-chip">Hola, ${escapeHtml(user.name || user.email)}. Tu sesión ya está activa.</p>`
+              : `<p class="account-chip muted">Puedes entrar o registrarte para guardar tu avance.</p>`
           }
 
           <div class="cta-row">
-            <button class="btn btn-primary" type="button" data-route="intro">Empezar guía</button>
+            <button class="btn btn-primary" type="button" data-route="intro">Comenzar</button>
             <button class="btn btn-secondary" type="button" data-route="${user ? "dashboard" : "register"}">
               ${user ? "Ir a mi cuenta" : "Crear cuenta"}
             </button>
-          </div>
-
-          <div class="stat-grid">
-            <article class="stat-card">
-              <strong>8</strong>
-              <span>pasos prácticos</span>
-            </article>
-            <article class="stat-card">
-              <strong>6</strong>
-              <span>vistas clave</span>
-            </article>
-            <article class="stat-card">
-              <strong>1</strong>
-              <span>experiencia unificada</span>
-            </article>
           </div>
         </div>
       </section>
@@ -221,39 +206,65 @@ function renderHome() {
         <div class="phone screen-card">
           <div class="dashboard-head">
             <div>
-              <p class="small-label">Becas</p>
-              <h3>Accesos rápidos</h3>
+              <p class="small-label">Resumen</p>
+              <h3>Lo que encontrarás</h3>
             </div>
             <div class="heart">♡</div>
           </div>
 
           <div class="grid-menu">
-            <button class="menu-card blue" type="button" data-route="intro">
-              <span class="menu-icon">💡</span>
-              <strong>Introducción</strong>
-            </button>
-            <button class="menu-card green" type="button" data-route="perfil">
+            <button class="menu-card blue" type="button" data-route="perfil">
               <span class="menu-icon">👤</span>
-              <strong>Perfil</strong>
+              <strong>Perfil académico</strong>
             </button>
-            <button class="menu-card lilac" type="button" data-route="buscar">
+            <button class="menu-card green" type="button" data-route="buscar">
               <span class="menu-icon">🔎</span>
-              <strong>Buscar</strong>
+              <strong>Fuentes confiables</strong>
             </button>
-            <button class="menu-card yellow" type="button" data-route="documentos">
+            <button class="menu-card lilac" type="button" data-route="documentos">
               <span class="menu-icon">📄</span>
               <strong>Documentos</strong>
             </button>
-            <button class="menu-card mint" type="button" data-route="seguimiento">
+            <button class="menu-card yellow" type="button" data-route="seguimiento">
               <span class="menu-icon">👑</span>
               <strong>Seguimiento</strong>
             </button>
-            <button class="menu-card sky" type="button" data-route="login">
-              <span class="menu-icon">📝</span>
-              <strong>Cuenta</strong>
-            </button>
           </div>
         </div>
+      </section>
+
+      <section class="section-stack reveal">
+        <article class="panel-box">
+          <h3>Atajos útiles</h3>
+          <div class="summary-grid">
+            <button class="summary-card" type="button" data-route="intro">
+              <strong>Introducción</strong>
+              <span>Aprende el proceso paso a paso.</span>
+            </button>
+            <button class="summary-card" type="button" data-route="buscar">
+              <strong>Dónde buscar</strong>
+              <span>Portales oficiales, universidades y fundaciones.</span>
+            </button>
+            <button class="summary-card" type="button" data-route="documentos">
+              <strong>Documentos</strong>
+              <span>Récord, carta de motivación, CV y más.</span>
+            </button>
+            <button class="summary-card" type="button" data-route="login">
+              <strong>Cuenta</strong>
+              <span>Inicia sesión o regístrate.</span>
+            </button>
+          </div>
+        </article>
+
+        <article class="panel-box accent">
+          <h3>Consejos del documento</h3>
+          <div class="stack-list compact">
+            <div><strong>Organiza</strong><span>Haz una tabla con beca, institución, país, requisitos y fecha límite.</span></div>
+            <div><strong>Prepara documentos</strong><span>Ten el expediente, CV, pasaporte y cartas listos antes de aplicar.</span></div>
+            <div><strong>Mejora tu perfil</strong><span>Participa en voluntariados, clubes, deportes y cursos.</span></div>
+            <div><strong>Aplica a varias</strong><span>No te limites a una sola oportunidad.</span></div>
+          </div>
+        </article>
       </section>
     </div>
   `;
@@ -779,7 +790,7 @@ function updateDynamicFields() {
   document.querySelectorAll("[data-action='logout']").forEach((button) => {
     button.addEventListener("click", () => {
       clearSession();
-      navigate("home");
+      navigate("inicio");
     });
   });
 }
@@ -792,7 +803,8 @@ function bindViewEvents() {
 
 function updateTitle(route) {
   const titles = {
-    home: "VAPA | Becas",
+    inicio: "VAPA | Inicio",
+    home: "VAPA | Inicio",
     dashboard: "Cuenta | VAPA",
     intro: "Introducción | VAPA",
     perfil: "Perfil académico | VAPA",
@@ -810,7 +822,7 @@ function updateTitle(route) {
 window.addEventListener("hashchange", renderCurrentView);
 window.addEventListener("DOMContentLoaded", () => {
   if (!window.location.hash) {
-    navigate("home");
+    navigate("inicio");
     return;
   }
 
