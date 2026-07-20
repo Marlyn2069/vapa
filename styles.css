@@ -617,6 +617,7 @@ select {
 .profile-form input,
 .profile-form select,
 .search-box input,
+.application-form select,
 .application-form input,
 .application-form textarea {
   width: 100%;
@@ -631,6 +632,7 @@ select {
 .profile-form input:focus,
 .profile-form select:focus,
 .search-box input:focus,
+.application-form select:focus,
 .application-form input:focus,
 .application-form textarea:focus {
   border-color: rgba(109, 40, 217, 0.38);
@@ -861,11 +863,40 @@ select {
   justify-content: space-between;
 }
 
+.application-badges,
+.application-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.application-actions .btn,
+.application-actions .ghost-btn {
+  min-height: 46px;
+}
+
 .application-head h3 {
   margin: 8px 0 0;
   font-size: clamp(1.15rem, 2vw, 1.7rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
+}
+
+.status-pill {
+  background: rgba(109, 40, 217, 0.12);
+  color: #4f356b;
+}
+
+.status-borrador {
+  background: rgba(243, 209, 255, 0.84);
+}
+
+.status-en-revisión {
+  background: rgba(195, 233, 255, 0.84);
+}
+
+.status-enviada {
+  background: rgba(212, 244, 183, 0.84);
 }
 
 .scholarship-hero h3 {

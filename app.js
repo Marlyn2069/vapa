@@ -132,6 +132,7 @@ const searchState = {
   query: "",
   filter: "todos",
 };
+const applicationStatuses = ["Borrador", "En revisión", "Enviada"];
 const storageKeys = {
   users: "vapa_users",
   session: "vapa_session",
@@ -429,6 +430,8 @@ function renderApplicationsView() {
                 createdAt && !Number.isNaN(createdAt.getTime())
                   ? createdAt.toLocaleDateString("es-DO", { year: "numeric", month: "short", day: "numeric" })
                   : "Fecha no disponible";
+              const status = getApplicationStatusLabel(application.status);
+              const statusClass = status.toLowerCase().replaceAll(" ", "-");
 
               return `
                 <article class="panel-box application-card">
@@ -437,7 +440,10 @@ function renderApplicationsView() {
                       <p class="section-kicker">Postulación guardada</p>
                       <h3>${escapeHtml(application.scholarshipTitle || "Beca")}</h3>
                     </div>
-                    <span class="pill">${escapeHtml(dateLabel)}</span>
+                    <div class="application-badges">
+                      <span class="pill status-pill status-${escapeHtml(statusClass)}">${escapeHtml(status)}</span>
+                      <span class="pill">${escapeHtml(dateLabel)}</span>
+                    </div>
                   </div>
                   <div class="stack-list compact">
                     <div><strong>Nombre</strong><span>${escapeHtml(application.name || "Sin nombre")}</span></div>
@@ -445,9 +451,11 @@ function renderApplicationsView() {
                     ${application.phone ? `<div><strong>Teléfono</strong><span>${escapeHtml(application.phone)}</span></div>` : ""}
                     <div><strong>Motivo</strong><span>${escapeHtml(application.message || "")}</span></div>
                   </div>
-                  <div class="detail-actions">
+                  <div class="detail-actions application-actions">
                     ${scholarship ? `<button class="btn btn-primary" type="button" data-route="beca/${scholarship.slug}">Ver beca</button>` : ""}
                     <button class="btn btn-secondary" type="button" data-route="postular/${application.scholarshipSlug}">Abrir solicitud</button>
+                    <button class="btn btn-secondary" type="button" data-action="cycle-application-status" data-application-id="${escapeHtml(application.id)}">Cambiar estado</button>
+                    <button class="ghost-btn danger" type="button" data-action="delete-application" data-application-id="${escapeHtml(application.id)}">Eliminar</button>
                   </div>
                 </article>
               `;
@@ -865,7 +873,7 @@ function renderScholarshipDetail() {
           <p class="panel-text">${escapeHtml(scholarship.description)}</p>
           <p class="detail-audience">${escapeHtml(scholarship.audience)}</p>
           <div class="detail-actions">
-            <button class="btn btn-primary" type="button" data-route="postular/${scholarship.slug}">Solicitar esta beca</button>
+            <button class="btn btn-primary" type="button" data-action="open-application" data-slug="${escapeHtml(scholarship.slug)}">Solicitar esta beca</button>
             <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
             <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
           </div>
@@ -910,7 +918,25 @@ function renderScholarshipDetail() {
 
 function loadApplications() {
   try {
-    return JSON.parse(localStorage.getItem(storageKeys.applications) || "[]");
+    const raw = JSON.parse(localStorage.getItem(storageKeys.applications) || "[]");
+    let changed = false;
+    const normalized = raw.map((item) => {
+      if (!item.id || !item.status) {
+        changed = true;
+      }
+
+      return {
+        ...item,
+        id: item.id || createApplicationId(),
+        status: getApplicationStatusLabel(item.status),
+      };
+    });
+
+    if (changed) {
+      saveApplications(normalized);
+    }
+
+    return normalized;
   } catch {
     return [];
   }
@@ -918,6 +944,59 @@ function loadApplications() {
 
 function saveApplications(applications) {
   localStorage.setItem(storageKeys.applications, JSON.stringify(applications));
+}
+
+function createApplicationId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+
+  return `app_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function getApplicationStatusLabel(status) {
+  return applicationStatuses.includes(status) ? status : "Borrador";
+}
+
+function getNextApplicationStatus(status) {
+  const currentIndex = applicationStatuses.indexOf(getApplicationStatusLabel(status));
+  return applicationStatuses[(currentIndex + 1) % applicationStatuses.length];
+}
+
+function findApplicationById(id) {
+  return loadApplications().find((item) => item.id === id) || null;
+}
+
+function updateApplicationStatus(id) {
+  const applications = loadApplications();
+  const index = applications.findIndex((item) => item.id === id);
+  if (index === -1) {
+    return;
+  }
+
+  applications[index] = {
+    ...applications[index],
+    status: getNextApplicationStatus(applications[index].status),
+  };
+
+  saveApplications(applications);
+  renderCurrentView();
+}
+
+function deleteApplicationById(id) {
+  const application = findApplicationById(id);
+  if (!application) {
+    return;
+  }
+
+  const confirmed = window.confirm(`¿Quieres eliminar la postulación de ${application.scholarshipTitle || "esta beca"}?`);
+  if (!confirmed) {
+    return;
+  }
+
+  const remaining = loadApplications().filter((item) => item.id !== id);
+  saveApplications(remaining);
+  renderCurrentView();
 }
 
 function renderScholarshipApplication() {
@@ -981,6 +1060,14 @@ function renderScholarshipApplication() {
               <label>
                 Motivo principal
                 <textarea name="message" rows="5" placeholder="Cuéntanos por qué quieres esta beca" required></textarea>
+              </label>
+              <label>
+                Estado inicial
+                <select name="status">
+                  <option value="Borrador">Borrador</option>
+                  <option value="En revisión">En revisión</option>
+                  <option value="Enviada">Enviada</option>
+                </select>
               </label>
               <input type="hidden" name="scholarshipSlug" value="${escapeHtml(scholarship.slug)}" />
               <input type="hidden" name="scholarshipTitle" value="${escapeHtml(scholarship.title)}" />
@@ -1163,12 +1250,14 @@ function updateDynamicFields() {
 
       const applications = loadApplications();
       applications.unshift({
+        id: createApplicationId(),
         scholarshipSlug,
         scholarshipTitle,
         name,
         email,
         phone,
         message,
+        status: getApplicationStatusLabel(String(formData.get("status") || "Borrador").trim()),
         createdAt: new Date().toISOString(),
       });
       saveApplications(applications);
@@ -1197,6 +1286,37 @@ function bindViewEvents() {
     const routeTarget = event.target.closest("[data-route]");
     if (routeTarget && app.contains(routeTarget)) {
       navigate(routeTarget.dataset.route);
+      return;
+    }
+
+    const actionTarget = event.target.closest("[data-action]");
+    if (!actionTarget || !app.contains(actionTarget)) {
+      return;
+    }
+
+    const { action } = actionTarget.dataset;
+    if (action === "open-application") {
+      const slug = actionTarget.dataset.slug;
+      const scholarship = getScholarshipBySlug(slug);
+      const officialUrl = scholarship?.officialUrl?.trim();
+
+      if (officialUrl) {
+        window.open(officialUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      navigate(`postular/${slug}`);
+      return;
+    }
+
+    if (action === "cycle-application-status") {
+      updateApplicationStatus(actionTarget.dataset.applicationId);
+      return;
+    }
+
+    if (action === "delete-application") {
+      deleteApplicationById(actionTarget.dataset.applicationId);
+      return;
     }
   });
 }
