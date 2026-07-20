@@ -1347,51 +1347,207 @@ select {
 }
 
 @media (max-width: 760px) {
+  body {
+    background: linear-gradient(180deg, #f4d7ff 0%, #fff8ff 42%, #f0e6ff 100%);
+  }
+
+  .page-noise,
+  .page-glow {
+    display: none;
+  }
+
   .app-shell {
-    width: min(100% - 16px, 1280px);
+    width: 100%;
+    padding: 0;
   }
 
   .topbar {
-    flex-direction: column;
-    align-items: stretch;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px 10px;
+    background: rgba(248, 239, 252, 0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(109, 40, 217, 0.08);
   }
 
   .brand {
-    width: 100%;
+    width: auto;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    font-size: 1.35rem;
+  }
+
+  .eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .brand h1 {
+    font-size: 1.25rem;
   }
 
   .topnav {
-    width: 100%;
-    justify-content: space-between;
+    display: none;
+  }
+
+  .app-main {
+    min-height: calc(100vh - 72px);
+    padding-bottom: 88px;
   }
 
   .view-panel {
-    padding: 18px;
+    padding: 16px;
+    border-radius: 22px;
+    margin: 0 10px;
   }
 
   .view-header {
     flex-direction: column;
+    gap: 12px;
   }
 
-  .cards-grid,
+  .view-header h2 {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .ghost-btn {
+    padding: 10px 14px;
+  }
+
+  .hero-card,
+  .auth-card,
+  .panel-box {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .hero-card h2,
+  .auth-card h2 {
+    font-size: clamp(1.8rem, 8vw, 2.35rem);
+    margin-top: 12px;
+  }
+
+  .lead {
+    font-size: 0.98rem;
+    margin-top: 14px;
+  }
+
+  .cta-row {
+    gap: 10px;
+  }
+
+  .btn {
+    min-height: 46px;
+    padding: 0 16px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+  }
+
+  .inicio-grid {
+    gap: 12px;
+  }
+
+  .quick-panel .phone,
+  .screen-card {
+    padding: 14px;
+  }
+
+  .screen-card {
+    border-radius: 24px;
+  }
+
+  .grid-menu {
+    gap: 10px;
+  }
+
+  .menu-card {
+    min-height: 88px;
+    border-radius: 16px;
+    padding: 12px 10px;
+    font-size: 0.84rem;
+  }
+
+  .menu-icon {
+    font-size: 1.45rem;
+  }
+
+  .section-stack {
+    gap: 12px;
+  }
+
   .summary-grid,
+  .cards-grid,
   .source-row,
   .action-grid,
-  .bottom-nav,
-  .grid-menu {
+  .dashboard-grid,
+  .account-actions,
+  .two-col,
+  .inicio-grid {
     grid-template-columns: 1fr;
+  }
+
+  .summary-card,
+  .scholarship-card,
+  .source-card,
+  .action-grid article,
+  .stack-list > div,
+  .checklist-item {
+    padding: 14px;
+    border-radius: 18px;
   }
 
   .bottom-nav {
-    padding: 12px;
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 50;
+    padding: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-radius: 22px;
+    margin: 0;
+  }
+
+  .bottom-link {
+    padding: 10px 8px;
+    font-size: 0.88rem;
+  }
+
+  .auth-shell {
+    min-height: calc(100vh - 72px);
+    padding: 10px 0 0;
+    align-items: start;
   }
 
   .auth-card {
-    padding: 22px;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    padding: 20px;
   }
 
-  .dashboard-grid,
-  .account-actions {
-    grid-template-columns: 1fr;
+  .auth-form {
+    margin-top: 18px;
+  }
+
+  .account-chip,
+  .form-hint {
+    width: 100%;
+    border-radius: 16px;
+    justify-content: flex-start;
   }
 }
