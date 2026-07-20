@@ -127,6 +127,7 @@ const documents = [
 ];
 
 const app = document.querySelector("#app");
+let appInteractionsBound = false;
 const searchState = {
   query: "",
   filter: "todos",
@@ -964,8 +965,17 @@ function updateDynamicFields() {
 }
 
 function bindViewEvents() {
-  document.querySelectorAll("[data-route]").forEach((element) => {
-    element.addEventListener("click", () => navigate(element.dataset.route));
+  if (appInteractionsBound) {
+    return;
+  }
+
+  appInteractionsBound = true;
+
+  app.addEventListener("click", (event) => {
+    const routeTarget = event.target.closest("[data-route]");
+    if (routeTarget && app.contains(routeTarget)) {
+      navigate(routeTarget.dataset.route);
+    }
   });
 }
 
