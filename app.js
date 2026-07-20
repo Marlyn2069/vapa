@@ -2,6 +2,7 @@ const scholarships = [
   {
     slug: "becas-mescyt",
     title: "Becas MESCyT",
+    officialUrl: "https://mescyt.gob.do/becas/nacionales/",
     region: "dominicana",
     type: "Gobierno",
     level: "Licenciatura",
@@ -21,6 +22,7 @@ const scholarships = [
   {
     slug: "beca-tu-futuro",
     title: "Beca Tu Futuro",
+    officialUrl: "https://becas.gob.do/",
     region: "dominicana",
     type: "Programa oficial",
     level: "Pregrado",
@@ -40,6 +42,7 @@ const scholarships = [
   {
     slug: "itla",
     title: "ITLA",
+    officialUrl: "https://puntostecnologicos.itla.edu.do/",
     region: "dominicana",
     type: "Universidad",
     level: "Técnico / Grado",
@@ -59,6 +62,7 @@ const scholarships = [
   {
     slug: "intec",
     title: "INTEC",
+    officialUrl: "https://www.intec.edu.do/admisiones/becas/como-aplicar",
     region: "dominicana",
     type: "Universidad",
     level: "Licenciatura",
@@ -78,6 +82,7 @@ const scholarships = [
   {
     slug: "canada-latinoamericanos",
     title: "Canadá para latinoamericanos",
+    officialUrl: "https://www.international.gc.ca/education/scholarships-bourses.aspx?lang=eng",
     region: "internacional",
     type: "Internacional",
     level: "Maestría",
@@ -97,6 +102,7 @@ const scholarships = [
   {
     slug: "fondos-liderazgo",
     title: "Fondos de liderazgo",
+    officialUrl: "https://latinamericanleadershipacademy.org/es/financial-aid/",
     region: "fundacion",
     type: "Fundación",
     level: "Pregrado",
