@@ -143,6 +143,7 @@ const storageKeys = {
   users: "vapa_users",
   session: "vapa_session",
   applications: "vapa_applications",
+  lastRoute: "vapa_last_route",
 };
 
 function loadUsers() {
@@ -183,6 +184,18 @@ function clearSession() {
 
 function getCurrentUser() {
   return loadSession();
+}
+
+function loadLastRoute() {
+  return localStorage.getItem(storageKeys.lastRoute) || "";
+}
+
+function saveLastRoute(route) {
+  if (!route) {
+    return;
+  }
+
+  localStorage.setItem(storageKeys.lastRoute, route);
 }
 
 const routes = {
@@ -1112,6 +1125,8 @@ function escapeHtml(value) {
 
 function renderCurrentView() {
   const route = getRoute();
+  const rawRoute = window.location.hash.replace(/^#\//, "");
+  saveLastRoute(rawRoute || route);
   const view = routes[route]();
   app.innerHTML = view;
   bindViewEvents();
@@ -1362,6 +1377,18 @@ function updateTitle(route) {
 window.addEventListener("hashchange", renderCurrentView);
 window.addEventListener("DOMContentLoaded", () => {
   if (!window.location.hash) {
+    const savedRoute = loadLastRoute();
+
+    if (savedRoute) {
+      navigate(savedRoute);
+      return;
+    }
+
+    if (getCurrentUser()) {
+      navigate("dashboard");
+      return;
+    }
+
     navigate("inicio");
     return;
   }
