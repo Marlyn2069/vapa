@@ -65,9 +65,54 @@ const searchState = {
   query: "",
   filter: "todos",
 };
+const storageKeys = {
+  users: "vapa_users",
+  session: "vapa_session",
+};
+
+function loadUsers() {
+  try {
+    const users = JSON.parse(localStorage.getItem(storageKeys.users) || "[]");
+    if (!users.length) {
+      const demoUser = { name: "Usuario demo", email: "demo@vapa.app", password: "vapa123" };
+      localStorage.setItem(storageKeys.users, JSON.stringify([demoUser]));
+      return [demoUser];
+    }
+    return users;
+  } catch {
+    const demoUser = { name: "Usuario demo", email: "demo@vapa.app", password: "vapa123" };
+    localStorage.setItem(storageKeys.users, JSON.stringify([demoUser]));
+    return [demoUser];
+  }
+}
+
+function saveUsers(users) {
+  localStorage.setItem(storageKeys.users, JSON.stringify(users));
+}
+
+function loadSession() {
+  try {
+    return JSON.parse(localStorage.getItem(storageKeys.session) || "null");
+  } catch {
+    return null;
+  }
+}
+
+function saveSession(user) {
+  localStorage.setItem(storageKeys.session, JSON.stringify(user));
+}
+
+function clearSession() {
+  localStorage.removeItem(storageKeys.session);
+}
+
+function getCurrentUser() {
+  return loadSession();
+}
 
 const routes = {
   home: renderHome,
+  dashboard: renderDashboard,
   intro: renderIntro,
   perfil: renderProfile,
   buscar: renderSearch,
@@ -88,6 +133,7 @@ function getRoute() {
 }
 
 function layout(title, subtitle, content, navRoute = getRoute()) {
+  const user = getCurrentUser();
   return `
     <div class="shell">
       <section class="view-panel reveal">
@@ -95,14 +141,27 @@ function layout(title, subtitle, content, navRoute = getRoute()) {
           <div>
             <p class="section-kicker">${title}</p>
             <h2>${subtitle}</h2>
+            ${
+              user
+                ? `<p class="account-chip">Sesión activa: ${escapeHtml(user.name || user.email)}</p>`
+                : ""
+            }
           </div>
-          <button class="ghost-btn" type="button" data-route="home">Volver al inicio</button>
+          <div class="header-actions">
+            <button class="ghost-btn" type="button" data-route="home">Volver al inicio</button>
+            ${
+              user
+                ? `<button class="ghost-btn danger" type="button" data-action="logout">Salir</button>`
+                : `<button class="ghost-btn" type="button" data-route="login">Entrar</button>`
+            }
+          </div>
         </div>
         ${content}
       </section>
 
       <nav class="bottom-nav" aria-label="Navegación de la app">
         ${navItem("home", "Inicio", navRoute)}
+        ${navItem("dashboard", "Cuenta", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
         ${navItem("login", "Cuenta", navRoute)}
@@ -116,6 +175,7 @@ function navItem(route, label, activeRoute) {
 }
 
 function renderHome() {
+  const user = getCurrentUser();
   return `
     <div class="home-grid">
       <section class="hero-card reveal">
@@ -127,9 +187,17 @@ function renderHome() {
             con acceso rápido a login, registro, búsqueda y seguimiento.
           </p>
 
+          ${
+            user
+              ? `<p class="account-chip">Hola, ${escapeHtml(user.name || user.email)}. Ya tienes sesión iniciada.</p>`
+              : `<p class="account-chip muted">Puedes crear una cuenta o iniciar sesión para guardar tu progreso.</p>`
+          }
+
           <div class="cta-row">
             <button class="btn btn-primary" type="button" data-route="intro">Empezar guía</button>
-            <button class="btn btn-secondary" type="button" data-route="register">Crear cuenta</button>
+            <button class="btn btn-secondary" type="button" data-route="${user ? "dashboard" : "register"}">
+              ${user ? "Ir a mi cuenta" : "Crear cuenta"}
+            </button>
           </div>
 
           <div class="stat-grid">
@@ -189,6 +257,49 @@ function renderHome() {
       </section>
     </div>
   `;
+}
+
+function renderDashboard() {
+  const user = getCurrentUser();
+
+  return layout(
+    "Cuenta",
+    user ? `Bienvenido, ${escapeHtml(user.name || user.email)}` : "Tu espacio personal",
+    `
+      <div class="dashboard-grid">
+        <article class="panel-box accent">
+          <h3>${user ? "Tu perfil" : "Aún no has iniciado sesión"}</h3>
+          ${
+            user
+              ? `
+                <div class="stack-list compact">
+                  <div><strong>Nombre</strong><span>${escapeHtml(user.name || "Sin nombre")}</span></div>
+                  <div><strong>Correo</strong><span>${escapeHtml(user.email)}</span></div>
+                  <div><strong>Estado</strong><span>Sesión activa y lista para usar.</span></div>
+                </div>
+              `
+              : `
+                <p class="panel-text">Inicia sesión o regístrate para guardar tu progreso y volver rápido a tus becas.</p>
+              `
+          }
+        </article>
+
+        <article class="panel-box">
+          <h3>Acciones rápidas</h3>
+          <div class="action-grid account-actions">
+            <button class="menu-card blue" type="button" data-route="buscar"><strong>Buscar becas</strong></button>
+            <button class="menu-card green" type="button" data-route="perfil"><strong>Editar perfil</strong></button>
+            <button class="menu-card lilac" type="button" data-route="documentos"><strong>Ver documentos</strong></button>
+            <button class="menu-card yellow" type="button" data-route="seguimiento"><strong>Seguimiento</strong></button>
+          </div>
+          <div class="cta-row">
+            ${user ? '<button class="btn btn-secondary" type="button" data-action="logout">Cerrar sesión</button>' : '<button class="btn btn-primary" type="button" data-route="login">Iniciar sesión</button>'}
+            <button class="btn btn-primary" type="button" data-route="intro">Continuar guía</button>
+          </div>
+        </article>
+      </div>
+    `
+  );
 }
 
 function renderIntro() {
@@ -417,13 +528,20 @@ function renderResources() {
 }
 
 function renderLogin() {
+  const user = getCurrentUser();
   return `
     <div class="auth-shell reveal">
       <section class="auth-card">
         <div class="auth-copy">
           <p class="section-kicker">Cuenta</p>
           <h2>Inicia sesión</h2>
-          <p class="lead">Accede a tu espacio de becas y continúa donde lo dejaste.</p>
+          <p class="lead">
+            ${
+              user
+                ? "Ya tienes una sesión activa. Puedes entrar al panel o salir."
+                : "Accede a tu espacio de becas y continúa donde lo dejaste."
+            }
+          </p>
         </div>
 
         <form class="auth-form" data-auth-form="login">
@@ -437,6 +555,8 @@ function renderLogin() {
           </label>
           <button class="btn btn-primary" type="submit">Entrar</button>
           <button class="btn btn-secondary" type="button" data-route="register">Crear cuenta</button>
+          <p class="form-hint">Cuenta de prueba: <strong>demo@vapa.app</strong> / <strong>vapa123</strong></p>
+          ${user ? '<button class="btn btn-secondary" type="button" data-action="logout">Salir</button>' : ""}
         </form>
       </section>
     </div>
@@ -531,7 +651,7 @@ function escapeHtml(value) {
 function renderCurrentView() {
   const route = getRoute();
   const view = routes[route]();
-  app.innerHTML = route === "home" ? view : view;
+  app.innerHTML = view;
   bindViewEvents();
   refreshSearchView();
   updateDynamicFields();
@@ -611,6 +731,54 @@ function updateDynamicFields() {
   document.querySelectorAll("[data-auth-form]").forEach((form) => {
     form.addEventListener("submit", (event) => {
       event.preventDefault();
+      const formData = new FormData(form);
+      const formType = form.dataset.authForm;
+      const email = String(formData.get("email") || "").trim().toLowerCase();
+      const password = String(formData.get("password") || "").trim();
+      const name = String(formData.get("name") || "").trim();
+      const confirm = String(formData.get("confirm") || "").trim();
+
+      if (formType === "register") {
+        if (!name || !email || password.length < 6) {
+          alert("Completa nombre, correo y una contraseña de al menos 6 caracteres.");
+          return;
+        }
+
+        if (password !== confirm) {
+          alert("Las contraseñas no coinciden.");
+          return;
+        }
+
+        const users = loadUsers();
+        if (users.some((user) => user.email === email)) {
+          saveSession({ name, email });
+          navigate("dashboard");
+          return;
+        }
+
+        users.push({ name, email, password });
+        saveUsers(users);
+        saveSession({ name, email });
+        navigate("dashboard");
+        return;
+      }
+
+      const users = loadUsers();
+      const found = users.find((user) => user.email === email && user.password === password);
+
+      if (!found) {
+        alert("No encontramos esa cuenta. Usa la cuenta de prueba o regístrate.");
+        return;
+      }
+
+      saveSession({ name: found.name, email: found.email });
+      navigate("dashboard");
+    });
+  });
+
+  document.querySelectorAll("[data-action='logout']").forEach((button) => {
+    button.addEventListener("click", () => {
+      clearSession();
       navigate("home");
     });
   });
@@ -625,6 +793,7 @@ function bindViewEvents() {
 function updateTitle(route) {
   const titles = {
     home: "VAPA | Becas",
+    dashboard: "Cuenta | VAPA",
     intro: "Introducción | VAPA",
     perfil: "Perfil académico | VAPA",
     buscar: "Buscar becas | VAPA",

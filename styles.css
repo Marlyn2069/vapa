@@ -215,6 +215,25 @@ select {
   margin: 18px 0 0;
 }
 
+.account-chip,
+.form-hint {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(109, 40, 217, 0.08);
+  color: #4f356b;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.account-chip.muted {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
+}
+
 .cta-row,
 .phone-actions {
   display: flex;
@@ -907,6 +926,13 @@ select {
   margin-bottom: 18px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .view-header h2 {
   margin: 8px 0 0;
   font-size: clamp(1.8rem, 2.8vw, 3rem);
@@ -922,6 +948,10 @@ select {
   padding: 12px 16px;
   font-weight: 800;
   cursor: pointer;
+}
+
+.ghost-btn.danger {
+  color: #8f1d56;
 }
 
 .home-grid,
@@ -1249,8 +1279,24 @@ select {
   margin-top: 24px;
 }
 
+.auth-form .form-hint {
+  display: block;
+  margin: 0;
+  border-radius: 18px;
+}
+
 .auth-form .btn {
   width: 100%;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.account-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (max-width: 1120px) {
@@ -1307,5 +1353,10 @@ select {
 
   .auth-card {
     padding: 22px;
+  }
+
+  .dashboard-grid,
+  .account-actions {
+    grid-template-columns: 1fr;
   }
 }
