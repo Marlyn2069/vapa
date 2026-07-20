@@ -182,6 +182,7 @@ const routes = {
   inicio: renderInicio,
   home: renderInicio,
   dashboard: renderDashboard,
+  postulaciones: renderApplicationsView,
   intro: renderIntro,
   perfil: renderProfile,
   buscar: renderSearch,
@@ -221,7 +222,7 @@ function getRouteParam() {
 }
 
 function activeNavRoute(route = getRoute()) {
-  if (route === "beca" || route === "postular") {
+  if (route === "beca" || route === "postular" || route === "postulaciones") {
     return "buscar";
   }
   return route;
@@ -401,9 +402,90 @@ function renderDashboard() {
             ${user ? '<button class="btn btn-secondary" type="button" data-action="logout">Cerrar sesión</button>' : '<button class="btn btn-primary" type="button" data-route="login">Iniciar sesión</button>'}
             <button class="btn btn-primary" type="button" data-route="intro">Continuar guía</button>
           </div>
+          <div class="cta-row">
+            <button class="btn btn-secondary" type="button" data-route="postulaciones">Mis postulaciones</button>
+          </div>
         </article>
       </div>
     `
+  );
+}
+
+function renderApplicationsView() {
+  const user = getCurrentUser();
+  const applications = loadApplications();
+  const userEmail = user?.email?.toLowerCase?.() || "";
+  const visibleApplications = userEmail
+    ? applications.filter((item) => String(item.email || "").trim().toLowerCase() === userEmail)
+    : applications;
+
+  const content =
+    visibleApplications.length > 0
+      ? `
+        <div class="applications-grid">
+          ${visibleApplications
+            .map((application) => {
+              const scholarship = getScholarshipBySlug(application.scholarshipSlug);
+              const createdAt = application.createdAt ? new Date(application.createdAt) : null;
+              const dateLabel =
+                createdAt && !Number.isNaN(createdAt.getTime())
+                  ? createdAt.toLocaleDateString("es-DO", { year: "numeric", month: "short", day: "numeric" })
+                  : "Fecha no disponible";
+
+              return `
+                <article class="panel-box application-card">
+                  <div class="application-head">
+                    <div>
+                      <p class="section-kicker">Postulación guardada</p>
+                      <h3>${escapeHtml(application.scholarshipTitle || "Beca")}</h3>
+                    </div>
+                    <span class="pill">${escapeHtml(dateLabel)}</span>
+                  </div>
+                  <div class="stack-list compact">
+                    <div><strong>Nombre</strong><span>${escapeHtml(application.name || "Sin nombre")}</span></div>
+                    <div><strong>Correo</strong><span>${escapeHtml(application.email || "Sin correo")}</span></div>
+                    ${application.phone ? `<div><strong>Teléfono</strong><span>${escapeHtml(application.phone)}</span></div>` : ""}
+                    <div><strong>Motivo</strong><span>${escapeHtml(application.message || "")}</span></div>
+                  </div>
+                  <div class="detail-actions">
+                    ${scholarship ? `<button class="btn btn-primary" type="button" data-route="beca/${scholarship.slug}">Ver beca</button>` : ""}
+                    <button class="btn btn-secondary" type="button" data-route="postular/${application.scholarshipSlug}">Abrir solicitud</button>
+                  </div>
+                </article>
+              `;
+            })
+            .join("")}
+        </div>
+      `
+      : `
+        <article class="panel-box detail-empty">
+          <h3>Aún no tienes postulaciones guardadas</h3>
+          <p class="panel-text">
+            Cuando abras una beca y guardes su solicitud, aparecerá aquí para que puedas retomarla después.
+          </p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Buscar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="inicio">Ir al inicio</button>
+          </div>
+        </article>
+      `;
+
+  return layout(
+    "Cuenta",
+    "Mis postulaciones",
+    `
+      <div class="applications-shell">
+        <article class="panel-box accent">
+          <h3>Tu historial</h3>
+          <p class="panel-text">
+            Aquí ves las solicitudes guardadas en este navegador. Si inicias sesión con el mismo correo,
+            te resultará más fácil seguir tu avance.
+          </p>
+        </article>
+        ${content}
+      </div>
+    `,
+    "dashboard",
   );
 }
 
@@ -1094,7 +1176,7 @@ function updateDynamicFields() {
       saveApplications(applications);
 
       alert(`Tu solicitud para ${scholarshipTitle || "esta beca"} quedó guardada.`);
-      navigate(`beca/${scholarshipSlug}`);
+      navigate("postulaciones");
     });
   });
 
@@ -1126,6 +1208,7 @@ function updateTitle(route) {
     inicio: "VAPA | Inicio",
     home: "VAPA | Inicio",
     dashboard: "Cuenta | VAPA",
+    postulaciones: "Mis postulaciones | VAPA",
     intro: "Introducción | VAPA",
     perfil: "Perfil académico | VAPA",
     buscar: "Buscar becas | VAPA",
@@ -1137,12 +1220,14 @@ function updateTitle(route) {
     register: "Registrarse | VAPA",
   };
 
-  if (route === "beca" || route === "postular") {
+  if (route === "beca" || route === "postular" || route === "postulaciones") {
     const scholarship = getScholarshipBySlug(getRouteParam());
     document.title = scholarship
       ? `${scholarship.title} | VAPA`
       : route === "postular"
         ? "Solicitar beca | VAPA"
+        : route === "postulaciones"
+          ? "Mis postulaciones | VAPA"
         : "Beca | VAPA";
     return;
   }
