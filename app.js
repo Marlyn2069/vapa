@@ -258,6 +258,7 @@ function layout(title, subtitle, content, navRoute = activeNavRoute()) {
       <nav class="bottom-nav" aria-label="Navegación de la app">
         ${navItem("inicio", "Inicio", navRoute)}
         ${navItem("dashboard", "Cuenta", navRoute)}
+        ${navItem("postulaciones", "Postulaciones", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
       </nav>
@@ -401,9 +402,6 @@ function renderDashboard() {
           <div class="cta-row">
             ${user ? '<button class="btn btn-secondary" type="button" data-action="logout">Cerrar sesión</button>' : '<button class="btn btn-primary" type="button" data-route="login">Iniciar sesión</button>'}
             <button class="btn btn-primary" type="button" data-route="intro">Continuar guía</button>
-          </div>
-          <div class="cta-row">
-            <button class="btn btn-secondary" type="button" data-route="postulaciones">Mis postulaciones</button>
           </div>
         </article>
       </div>
