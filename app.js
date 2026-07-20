@@ -135,6 +135,7 @@ const searchState = {
 const storageKeys = {
   users: "vapa_users",
   session: "vapa_session",
+  applications: "vapa_applications",
 };
 
 function loadUsers() {
@@ -185,6 +186,7 @@ const routes = {
   perfil: renderProfile,
   buscar: renderSearch,
   beca: renderScholarshipDetail,
+  postular: renderScholarshipApplication,
   documentos: renderDocuments,
   seguimiento: renderFollowUp,
   recursos: renderResources,
@@ -201,6 +203,9 @@ function getRoute() {
   if (raw.startsWith("beca/")) {
     return "beca";
   }
+  if (raw.startsWith("postular/")) {
+    return "postular";
+  }
   return routes[raw] ? raw : "inicio";
 }
 
@@ -209,11 +214,14 @@ function getRouteParam() {
   if (raw.startsWith("beca/")) {
     return raw.slice("beca/".length);
   }
+  if (raw.startsWith("postular/")) {
+    return raw.slice("postular/".length);
+  }
   return "";
 }
 
 function activeNavRoute(route = getRoute()) {
-  if (route === "beca") {
+  if (route === "beca" || route === "postular") {
     return "buscar";
   }
   return route;
@@ -777,6 +785,7 @@ function renderScholarshipDetail() {
           <p class="panel-text">${escapeHtml(scholarship.description)}</p>
           <p class="detail-audience">${escapeHtml(scholarship.audience)}</p>
           <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="postular/${scholarship.slug}">Solicitar esta beca</button>
             <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
             <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
           </div>
@@ -812,6 +821,106 @@ function renderScholarshipDetail() {
               <span>Guarda el enlace, revisa fechas y prepara tu expediente antes de empezar.</span>
             </div>
           </article>
+        </div>
+      </div>
+    `,
+    "buscar",
+  );
+}
+
+function loadApplications() {
+  try {
+    return JSON.parse(localStorage.getItem(storageKeys.applications) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveApplications(applications) {
+  localStorage.setItem(storageKeys.applications, JSON.stringify(applications));
+}
+
+function renderScholarshipApplication() {
+  const slug = getRouteParam();
+  const scholarship = getScholarshipBySlug(slug);
+  const user = getCurrentUser();
+
+  if (!scholarship) {
+    return layout(
+      "Solicitar beca",
+      "No encontramos esa beca",
+      `
+        <div class="panel-box detail-empty">
+          <p class="panel-text">No se pudo abrir la solicitud porque el enlace no es válido.</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+          </div>
+        </div>
+      `,
+      "buscar",
+    );
+  }
+
+  return layout(
+    scholarship.title,
+    "Solicitud de beca",
+    `
+      <div class="detail-shell">
+        <article class="panel-box scholarship-hero">
+          <div class="hero-topline">
+            <span class="pill">${escapeHtml(scholarship.region)}</span>
+            <span class="pill">${escapeHtml(scholarship.type)}</span>
+            <span class="pill">${escapeHtml(scholarship.level)}</span>
+          </div>
+          <h3>Solicita ${escapeHtml(scholarship.title)}</h3>
+          <p class="panel-text">
+            Completa esta solicitud para dejar tu avance registrado y organizar mejor tu postulación.
+          </p>
+          <div class="detail-actions">
+            <button class="btn btn-secondary" type="button" data-route="beca/${scholarship.slug}">Volver al detalle</button>
+            <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
+          </div>
+        </article>
+
+        <div class="two-col">
+          <article class="panel-box">
+            <h4>Datos de la solicitud</h4>
+            <form class="application-form" data-application-form="scholarship">
+              <label>
+                Nombre completo
+                <input type="text" name="name" value="${escapeHtml(user?.name || "")}" placeholder="Tu nombre" required />
+              </label>
+              <label>
+                Correo electrónico
+                <input type="email" name="email" value="${escapeHtml(user?.email || "")}" placeholder="tu@email.com" required />
+              </label>
+              <label>
+                Teléfono
+                <input type="tel" name="phone" placeholder="Ej. 809 000 0000" />
+              </label>
+              <label>
+                Motivo principal
+                <textarea name="message" rows="5" placeholder="Cuéntanos por qué quieres esta beca" required></textarea>
+              </label>
+              <input type="hidden" name="scholarshipSlug" value="${escapeHtml(scholarship.slug)}" />
+              <input type="hidden" name="scholarshipTitle" value="${escapeHtml(scholarship.title)}" />
+              <button class="btn btn-primary" type="submit">Guardar solicitud</button>
+            </form>
+          </article>
+
+          <aside class="panel-box accent">
+            <h4>Antes de enviar</h4>
+            <div class="stack-list compact">
+              <div><strong>1. Revisa</strong><span>Verifica requisitos, fecha límite y documentos.</span></div>
+              <div><strong>2. Completa</strong><span>Llena tu información sin dejar campos vacíos.</span></div>
+              <div><strong>3. Guarda</strong><span>Tu avance quedará registrado en el navegador.</span></div>
+              <div><strong>4. Continúa</strong><span>Si quieres, luego seguimos con el portal oficial.</span></div>
+            </div>
+            <div class="detail-note">
+              <strong>Nota</strong>
+              <span>Esto funciona como un paso de organización dentro de VAPA. Si existe portal oficial, puedes enlazarlo después.</span>
+            </div>
+          </aside>
         </div>
       </div>
     `,
@@ -956,6 +1065,39 @@ function updateDynamicFields() {
     });
   });
 
+  document.querySelectorAll("[data-application-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const scholarshipSlug = String(formData.get("scholarshipSlug") || "").trim();
+      const scholarshipTitle = String(formData.get("scholarshipTitle") || "").trim();
+      const name = String(formData.get("name") || "").trim();
+      const email = String(formData.get("email") || "").trim();
+      const phone = String(formData.get("phone") || "").trim();
+      const message = String(formData.get("message") || "").trim();
+
+      if (!name || !email || !message) {
+        alert("Completa nombre, correo y motivo principal.");
+        return;
+      }
+
+      const applications = loadApplications();
+      applications.unshift({
+        scholarshipSlug,
+        scholarshipTitle,
+        name,
+        email,
+        phone,
+        message,
+        createdAt: new Date().toISOString(),
+      });
+      saveApplications(applications);
+
+      alert(`Tu solicitud para ${scholarshipTitle || "esta beca"} quedó guardada.`);
+      navigate(`beca/${scholarshipSlug}`);
+    });
+  });
+
   document.querySelectorAll("[data-action='logout']").forEach((button) => {
     button.addEventListener("click", () => {
       clearSession();
@@ -987,6 +1129,7 @@ function updateTitle(route) {
     intro: "Introducción | VAPA",
     perfil: "Perfil académico | VAPA",
     buscar: "Buscar becas | VAPA",
+    postular: "Solicitar beca | VAPA",
     documentos: "Documentos | VAPA",
     seguimiento: "Seguimiento | VAPA",
     recursos: "Recursos | VAPA",
@@ -994,9 +1137,13 @@ function updateTitle(route) {
     register: "Registrarse | VAPA",
   };
 
-  if (route === "beca") {
+  if (route === "beca" || route === "postular") {
     const scholarship = getScholarshipBySlug(getRouteParam());
-    document.title = scholarship ? `${scholarship.title} | VAPA` : "Beca | VAPA";
+    document.title = scholarship
+      ? `${scholarship.title} | VAPA`
+      : route === "postular"
+        ? "Solicitar beca | VAPA"
+        : "Beca | VAPA";
     return;
   }
 
