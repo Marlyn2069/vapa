@@ -323,7 +323,7 @@ function layout(title, subtitle, content, navRoute = activeNavRoute()) {
             <h2>${subtitle}</h2>
             ${
               user
-                ? `<p class="account-chip">Sesión activa: ${escapeHtml(user.name || user.email)}</p>`
+                ? `<p class="account-chip">Sesión activa</p>`
                 : ""
             }
           </div>
@@ -384,7 +384,7 @@ function renderInicio() {
 
           ${
             user
-              ? `<p class="account-chip">Hola, ${escapeHtml(user.name || user.email)}. Tu sesión ya está activa.</p>`
+              ? `<p class="account-chip">Tu sesión ya está activa.</p>`
               : `<p class="account-chip muted">Puedes entrar o registrarte para guardar tu avance.</p>`
           }
 
@@ -581,7 +581,7 @@ function renderDashboard() {
 
   return layout(
     "Cuenta",
-    user ? `Bienvenido, ${escapeHtml(user.name || user.email)}` : "Tu espacio personal",
+    user ? "Bienvenido a tu cuenta" : "Tu espacio personal",
     `
       <div class="dashboard-grid">
         <article class="panel-box accent">
@@ -590,7 +590,6 @@ function renderDashboard() {
             user
               ? `
                 <div class="stack-list compact">
-                  <div><strong>Nombre</strong><span>${escapeHtml(user.name || "Sin nombre")}</span></div>
                   <div><strong>Correo</strong><span>${escapeHtml(user.email)}</span></div>
                   <div><strong>Estado</strong><span>Sesión activa y lista para usar.</span></div>
                 </div>
