@@ -161,21 +161,21 @@ select {
 }
 
 .layout {
-  width: min(1280px, calc(100% - 32px));
+  width: min(1480px, calc(100% - 40px));
   margin: 0 auto;
   padding: 6px 0 44px;
 }
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
-  gap: 28px;
+  grid-template-columns: minmax(420px, 0.95fr) minmax(540px, 1.05fr);
+  gap: 34px;
   align-items: center;
   margin: 8px 0 30px;
 }
 
 .hero-copy {
-  padding: 18px 8px 18px 0;
+  padding: 18px 12px 18px 0;
 }
 
 .pill,
@@ -195,10 +195,10 @@ select {
 
 .hero h2 {
   margin-top: 18px;
-  font-size: clamp(2.4rem, 3.8vw, 4.8rem);
+  font-size: clamp(2.2rem, 3.2vw, 4.2rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
-  max-width: 12ch;
+  max-width: 15ch;
 }
 
 .lead,
@@ -2102,8 +2102,8 @@ select {
 
 .hero-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 1.02fr);
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 1.08fr);
+  gap: 28px;
   align-items: center;
 }
 
@@ -2111,7 +2111,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 18px 0 0;
+  margin: 20px 0 0;
 }
 
 .hero-badges span {
@@ -2125,8 +2125,8 @@ select {
 
 .hero-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.9fr);
-  gap: 16px;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.85fr);
+  gap: 18px;
   align-items: center;
 }
 
@@ -2171,8 +2171,8 @@ select {
 
 .laptop-screen {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr) 250px;
-  gap: 14px;
+  grid-template-columns: 170px minmax(0, 1fr) 270px;
+  gap: 16px;
   min-height: 510px;
   padding: 14px;
   border-radius: 28px;
