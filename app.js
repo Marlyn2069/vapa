@@ -132,6 +132,69 @@ const documents = [
   "Ensayos o proyectos personales (cuando se soliciten)",
 ];
 
+const vapaSections = [
+  {
+    title: "Explora becas",
+    description: "Lista de universidades y programas para aplicar, con requisitos y enlace oficial.",
+    route: "buscar",
+    accent: "blue",
+  },
+  {
+    title: "Guía práctica",
+    description: "Paso a paso para solicitar una beca, preparar documentos y ordenar tu proceso.",
+    route: "intro",
+    accent: "green",
+  },
+  {
+    title: "Alertas de convocatorias",
+    description: "Convocatorias activas, fechas y avisos para que no se te pase ningún cierre.",
+    route: "postulaciones",
+    accent: "yellow",
+  },
+  {
+    title: "Conoce antes de decidir",
+    description: "Pros y contras de una beca y lo que implica mantenerla a largo plazo.",
+    route: "recursos",
+    accent: "lilac",
+  },
+  {
+    title: "Resuelve tus dudas",
+    description: "Preguntas frecuentes sobre becas, universidades, requisitos y el proceso.",
+    route: "documentos",
+    accent: "mint",
+  },
+];
+
+const vapaAlerts = scholarships.slice(0, 3).map((item) => ({
+  title: item.title,
+  subtitle: item.level,
+  description: item.description,
+  route: `beca/${item.slug}`,
+}));
+
+const vapaFaqs = [
+  {
+    question: "¿Cómo sé si una beca me conviene?",
+    answer:
+      "Compara tu promedio, nivel académico, idioma, documentos y modalidad con lo que pide la convocatoria oficial.",
+  },
+  {
+    question: "¿Puedo guardar una postulación y seguir después?",
+    answer:
+      "Sí. VAPA guarda la solicitud como borrador, enviada o en revisión para que la retomes cuando quieras.",
+  },
+  {
+    question: "¿Dónde veo el enlace oficial de cada beca?",
+    answer:
+      "En la vista de detalle. Si la beca tiene portal oficial cargado, el botón te lleva directamente al sitio real.",
+  },
+  {
+    question: "¿Qué hago antes de enviar mi solicitud?",
+    answer:
+      "Revisa requisitos, reúne documentos, escribe un buen motivo y confirma la fecha límite antes de postular.",
+  },
+];
+
 const app = document.querySelector("#app");
 let appInteractionsBound = false;
 const searchState = {
@@ -204,6 +267,7 @@ const routes = {
   dashboard: renderDashboard,
   postulaciones: renderApplicationsView,
   intro: renderIntro,
+  secciones: renderVapaSections,
   perfil: renderProfile,
   buscar: renderSearch,
   beca: renderScholarshipDetail,
@@ -292,16 +356,31 @@ function navItem(route, label, activeRoute) {
 
 function renderInicio() {
   const user = getCurrentUser();
+  const featuredScholarships = scholarships.slice(0, 3);
+  const mobileApplications = [
+    { title: "Beca Innovación 2025", institution: "Fundación Educa", status: "En revisión", accent: "blue", time: "20 May 2025" },
+    { title: "Beca Talento Académico", institution: "Universidad del Futuro", status: "Enviada", accent: "green", time: "18 May 2025" },
+    { title: "Beca Formación Técnica", institution: "Instituto Superior", status: "Borrador", accent: "yellow", time: "10 May 2025" },
+  ];
+
   return `
     <div class="inicio-grid">
       <section class="hero-card reveal">
         <div class="hero-copy">
-          <span class="pill">Visualiza • Aprende • Progresa • Avanza</span>
-          <h2>Tu guía práctica para encontrar y solicitar becas.</h2>
+          <span class="pill">Tu espacio para crecer, aprender y alcanzar tus sueños</span>
+          <h2>Encuentra, comprende y solicita becas con una experiencia visual clara.</h2>
           <p class="lead">
-            Aquí empiezas con una vista clara: identificas tu perfil, buscas en fuentes
-            confiables, organizas documentos y haces seguimiento sin perderte entre pantallas.
+            VAPA reúne el contenido del prototipo en una interfaz más parecida a una app real:
+            vista de inicio, buscador, detalle de beca, postulaciones y seguimiento, con un diseño
+            pensado para escritorio y móvil.
           </p>
+
+          <div class="hero-badges">
+            <span>Inicio</span>
+            <span>Buscar</span>
+            <span>Recursos</span>
+            <span>Postulaciones</span>
+          </div>
 
           ${
             user
@@ -311,40 +390,147 @@ function renderInicio() {
 
           <div class="cta-row">
             <button class="btn btn-primary" type="button" data-route="intro">Comenzar</button>
+            <button class="btn btn-secondary" type="button" data-route="buscar">Explorar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="secciones">Qué incluye VAPA</button>
             <button class="btn btn-secondary" type="button" data-route="${user ? "dashboard" : "register"}">
               ${user ? "Ir a mi cuenta" : "Crear cuenta"}
             </button>
           </div>
-        </div>
-      </section>
 
-      <section class="quick-panel reveal">
-        <div class="phone screen-card">
-          <div class="dashboard-head">
-            <div>
-              <p class="small-label">Resumen</p>
-              <h3>Lo que encontrarás</h3>
+          <div class="stat-grid">
+            <article class="stat-card">
+              <strong>8</strong>
+              <span>pasos prácticos</span>
+            </article>
+            <article class="stat-card">
+              <strong>6</strong>
+              <span>secciones clave</span>
+            </article>
+            <article class="stat-card">
+              <strong>1</strong>
+              <span>flujo multiplataforma</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-showcase">
+          <div class="device laptop-mock">
+            <div class="device-topbar">
+              <span class="device-dots">
+                <i></i><i></i><i></i>
+              </span>
+              <span class="device-brand">VAPA</span>
             </div>
-            <div class="heart">♡</div>
+            <div class="laptop-screen">
+              <aside class="laptop-sidebar">
+                <div class="sidebar-brand">
+                  <span class="sidebar-cap">🎓</span>
+                  <strong>VAPA</strong>
+                </div>
+                <button class="sidebar-item active" type="button">Inicio</button>
+                <button class="sidebar-item" type="button">Buscar</button>
+                <button class="sidebar-item" type="button">Recursos</button>
+                <button class="sidebar-item" type="button">Postulaciones</button>
+              </aside>
+
+              <section class="laptop-main">
+                <div class="laptop-banner">
+                  <div>
+                    <p class="section-kicker">Encuentra la beca</p>
+                    <h3>que impulsa tu futuro</h3>
+                    <div class="search-pill">
+                      <span>Buscar becas, instituciones o palabras clave...</span>
+                      <button type="button">⌕</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="showcase-row">
+                  ${featuredScholarships
+                    .map(
+                      (item, index) => `
+                        <article class="mini-scholarship mini-${index === 0 ? "green" : index === 1 ? "blue" : "yellow"}">
+                          <span class="mini-tag">${escapeHtml(item.level)}</span>
+                          <h4>${escapeHtml(item.title)}</h4>
+                          <p>${escapeHtml(item.audience.slice(0, 90))}...</p>
+                          <button type="button">Ver detalle</button>
+                        </article>
+                      `,
+                    )
+                    .join("")}
+                </div>
+
+                <div class="category-row">
+                  <span>Académicas</span>
+                  <span>Investigación</span>
+                  <span>Movilidad</span>
+                  <span>Técnicas</span>
+                  <span>Deportivas</span>
+                </div>
+              </section>
+
+              <aside class="laptop-detail">
+                <span class="pill detail-pill">Pregrado</span>
+                <h4>Beca Talento Académico</h4>
+                <p>Apoyo económico para estudiantes con excelente rendimiento académico.</p>
+                <div class="detail-meta">
+                  <div><strong>Modalidad</strong><span>Presencial</span></div>
+                  <div><strong>Cobertura</strong><span>Parcial</span></div>
+                  <div><strong>Fecha de cierre</strong><span>30 Jun 2025</span></div>
+                  <div><strong>Requisitos</strong><span>Promedio mínimo, carta y expediente</span></div>
+                </div>
+                <button class="btn btn-primary device-cta" type="button" data-route="postulaciones">Solicitar beca</button>
+              </aside>
+            </div>
           </div>
 
-          <div class="grid-menu">
-            <button class="menu-card blue" type="button" data-route="perfil">
-              <span class="menu-icon">👤</span>
-              <strong>Perfil académico</strong>
-            </button>
-            <button class="menu-card green" type="button" data-route="buscar">
-              <span class="menu-icon">🔎</span>
-              <strong>Fuentes confiables</strong>
-            </button>
-            <button class="menu-card lilac" type="button" data-route="documentos">
-              <span class="menu-icon">📄</span>
-              <strong>Documentos</strong>
-            </button>
-            <button class="menu-card yellow" type="button" data-route="seguimiento">
-              <span class="menu-icon">👑</span>
-              <strong>Seguimiento</strong>
-            </button>
+          <div class="device phone-mock">
+            <div class="phone-notch"></div>
+            <div class="phone-shell">
+              <div class="phone-head">
+                <div>
+                  <p class="section-kicker">VAPA</p>
+                  <h3>Mis postulaciones</h3>
+                </div>
+                <span class="phone-bell">🔔</span>
+              </div>
+
+              <div class="tabs-row">
+                <span class="tab active">Todas</span>
+                <span class="tab">Activas</span>
+                <span class="tab">Finalizadas</span>
+              </div>
+
+              <div class="status-stack">
+                ${mobileApplications
+                  .map(
+                    (item) => `
+                      <article class="status-card ${item.accent}">
+                        <div class="status-icon">${item.accent === "green" ? "🎓" : item.accent === "blue" ? "📘" : "🗂️"}</div>
+                        <div class="status-copy">
+                          <strong>${escapeHtml(item.title)}</strong>
+                          <span>${escapeHtml(item.institution)}</span>
+                          <small>Estado</small>
+                          <div class="status-row">
+                            <span class="status-chip">${escapeHtml(item.status)}</span>
+                            <span class="status-date">Actualizado: ${escapeHtml(item.time)}</span>
+                          </div>
+                        </div>
+                      </article>
+                    `,
+                  )
+                  .join("")}
+              </div>
+
+              <button class="btn btn-primary phone-cta" type="button" data-route="postulaciones">Nueva postulación</button>
+
+              <nav class="phone-nav" aria-label="Navegación móvil">
+                <span class="phone-nav-item active">Inicio</span>
+                <span class="phone-nav-item">Buscar</span>
+                <span class="phone-nav-item">Recursos</span>
+                <span class="phone-nav-item">Postulaciones</span>
+              </nav>
+            </div>
           </div>
         </div>
       </section>
@@ -368,6 +554,10 @@ function renderInicio() {
             <button class="summary-card" type="button" data-route="login">
               <strong>Cuenta</strong>
               <span>Inicia sesión o regístrate.</span>
+            </button>
+            <button class="summary-card" type="button" data-route="secciones">
+              <strong>Qué incluye VAPA</strong>
+              <span>Explora becas, guía, alertas y dudas frecuentes.</span>
             </button>
           </div>
         </article>
@@ -557,9 +747,116 @@ function renderIntro() {
             <div><strong>Paso 7</strong><span>Guarda el comprobante.</span></div>
             <div><strong>Paso 8</strong><span>No te limites a una sola beca.</span></div>
           </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="button" data-route="secciones">Ver lo que incluye VAPA</button>
+            <button class="btn btn-secondary" type="button" data-route="buscar">Ir a becas</button>
+          </div>
         </aside>
       </div>
     `
+  );
+}
+
+function renderVapaSections() {
+  return layout(
+    "Sección VAPA",
+    "¿Qué incluye?",
+    `
+      <div class="vapa-hub">
+        <article class="panel-box accent">
+          <p class="panel-text">
+            Esta vista reúne las partes más importantes del prototipo: exploración de becas, guía práctica,
+            alertas, recomendaciones para decidir y respuestas rápidas a dudas frecuentes.
+          </p>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="button" data-route="buscar">Explorar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="intro">Guía práctica</button>
+            <button class="btn btn-secondary" type="button" data-route="postulaciones">Postulaciones</button>
+          </div>
+        </article>
+
+        <section class="feature-grid">
+          ${vapaSections
+            .map(
+              (item) => `
+                <article class="feature-card feature-${escapeHtml(item.accent)}">
+                  <p class="section-kicker">VAPA</p>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <p>${escapeHtml(item.description)}</p>
+                  <div class="feature-actions">
+                    <button class="btn btn-secondary" type="button" data-route="${escapeHtml(item.route)}">Abrir</button>
+                  </div>
+                </article>
+              `,
+            )
+            .join("")}
+        </section>
+
+        <div class="two-col">
+          <article class="panel-box">
+            <h3>Alertas de convocatorias</h3>
+            <p class="panel-text">
+              Aquí puedes ver ejemplos de convocatorias destacadas y entrar directo al detalle o al enlace oficial.
+            </p>
+            <div class="alert-list">
+              ${vapaAlerts
+                .map(
+                  (item) => `
+                    <article class="alert-item">
+                      <div>
+                        <strong>${escapeHtml(item.title)}</strong>
+                        <span>${escapeHtml(item.subtitle)}</span>
+                        <p>${escapeHtml(item.description)}</p>
+                      </div>
+                      <button class="btn btn-secondary" type="button" data-route="${escapeHtml(item.route)}">Ver detalle</button>
+                    </article>
+                  `,
+                )
+                .join("")}
+            </div>
+          </article>
+
+          <article class="panel-box accent">
+            <h3>Resuelve tus dudas</h3>
+            <div class="faq-list">
+              ${vapaFaqs
+                .map(
+                  (item) => `
+                    <details class="faq-item">
+                      <summary>${escapeHtml(item.question)}</summary>
+                      <p>${escapeHtml(item.answer)}</p>
+                    </details>
+                  `,
+                )
+                .join("")}
+            </div>
+          </article>
+        </div>
+
+        <article class="panel-box">
+          <h3>Conoce antes de decidir</h3>
+          <div class="pros-cons">
+            <div class="pros-card">
+              <strong>Pros</strong>
+              <ul class="detail-list">
+                <li>Apoyo económico para estudiar sin tanta presión financiera.</li>
+                <li>Acceso a mejores universidades, programas y redes académicas.</li>
+                <li>Más posibilidades de crecer profesional y personalmente.</li>
+              </ul>
+            </div>
+            <div class="cons-card">
+              <strong>Contras</strong>
+              <ul class="detail-list">
+                <li>Hay que cumplir requisitos y mantener el rendimiento.</li>
+                <li>El proceso puede tomar tiempo y pedir varios documentos.</li>
+                <li>Algunas becas exigen reportes, compromiso o seguimiento constante.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    `,
+    "secciones",
   );
 }
 
@@ -1349,6 +1646,7 @@ function updateTitle(route) {
     dashboard: "Cuenta | VAPA",
     postulaciones: "Mis postulaciones | VAPA",
     intro: "Introducción | VAPA",
+    secciones: "Sección VAPA | VAPA",
     perfil: "Perfil académico | VAPA",
     buscar: "Buscar becas | VAPA",
     postular: "Solicitar beca | VAPA",
