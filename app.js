@@ -368,7 +368,7 @@ function renderInicio() {
       <section class="hero-card reveal">
         <div class="hero-copy">
           <span class="pill">Tu espacio para crecer, aprender y alcanzar tus sueños</span>
-          <h2>Encuentra, comprende y solicita becas con una experiencia visual clara.</h2>
+          <h2>Encuentra la beca que impulsa tu futuro.</h2>
           <p class="lead">
             VAPA reúne el contenido del prototipo en una interfaz más parecida a una app real:
             vista de inicio, buscador, detalle de beca, postulaciones y seguimiento, con un diseño
