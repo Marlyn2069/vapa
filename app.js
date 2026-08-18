@@ -1,51 +1,123 @@
 const scholarships = [
   {
+    slug: "becas-mescyt",
     title: "Becas MESCyT",
+    officialUrl: "https://mescyt.gob.do/becas/nacionales/",
     region: "dominicana",
     type: "Gobierno",
     level: "Licenciatura",
     description:
       "Opciones para estudios nacionales e internacionales con apoyo institucional.",
+    audience: "Estudiantes dominicanos que buscan apoyo público para pregrado, posgrado o especialidades.",
+    benefits: ["Cobertura académica", "Oportunidades nacionales e internacionales", "Convocatorias oficiales"],
+    documents: ["Récord académico", "Cédula o pasaporte", "Carta de motivación", "Currículum vitae"],
+    steps: [
+      "Revisa la convocatoria vigente.",
+      "Confirma que cumples el perfil académico.",
+      "Reúne tu expediente y cartas solicitadas.",
+      "Completa el formulario y guarda el comprobante.",
+    ],
+    tip: "Sigue siempre el portal oficial para evitar fechas o documentos desactualizados.",
   },
   {
+    slug: "beca-tu-futuro",
     title: "Beca Tu Futuro",
+    officialUrl: "https://becas.gob.do/",
     region: "dominicana",
     type: "Programa oficial",
     level: "Pregrado",
     description:
       "Convocatorias enfocadas en estudiantes dominicanos con alto potencial académico.",
+    audience: "Jóvenes que quieren acceder a programas de apoyo educativo dentro del país.",
+    benefits: ["Apoyo para estudios", "Orientación de convocatoria", "Acceso a múltiples opciones"],
+    documents: ["Expediente académico", "Documento de identidad", "Carta de intención", "Formulario oficial"],
+    steps: [
+      "Busca la convocatoria activa.",
+      "Verifica requisitos y condiciones.",
+      "Prepara tus documentos.",
+      "Aplica y revisa tu correo regularmente.",
+    ],
+    tip: "Ten a mano tus datos personales y académicos antes de completar la solicitud.",
   },
   {
+    slug: "itla",
     title: "ITLA",
+    officialUrl: "https://puntostecnologicos.itla.edu.do/",
     region: "dominicana",
     type: "Universidad",
     level: "Técnico / Grado",
     description:
       "Oportunidades tecnológicas como ciberseguridad, software y áreas STEM.",
+    audience: "Personas interesadas en carreras tecnológicas, innovación y formación práctica.",
+    benefits: ["Carreras STEM", "Enfoque técnico", "Proyección laboral"],
+    documents: ["Récord académico", "Documento de identidad", "Pruebas o formularios internos", "Carta motivacional"],
+    steps: [
+      "Consulta la oferta de carreras o becas.",
+      "Revisa requisitos de admisión.",
+      "Prepara tu expediente.",
+      "Sigue el proceso de selección indicado.",
+    ],
+    tip: "Si te interesa tecnología, esta opción suele ser una de las más útiles para empezar.",
   },
   {
+    slug: "intec",
     title: "INTEC",
+    officialUrl: "https://www.intec.edu.do/admisiones/becas/como-aplicar",
     region: "dominicana",
     type: "Universidad",
     level: "Licenciatura",
     description:
       "Becas y ayudas para carreras de alto rendimiento académico y liderazgo.",
+    audience: "Estudiantes con buen rendimiento que buscan una universidad exigente y de alto nivel.",
+    benefits: ["Becas parciales o completas", "Red de liderazgo", "Programas académicos sólidos"],
+    documents: ["Expediente académico", "Ensayo o carta", "Documento de identidad", "Cartas de recomendación"],
+    steps: [
+      "Identifica la beca o admisión que más te conviene.",
+      "Prepara tus documentos y ensayos.",
+      "Aplica dentro de la fecha límite.",
+      "Haz seguimiento al resultado.",
+    ],
+    tip: "Tu promedio y tu historia personal pueden pesar mucho en esta clase de convocatorias.",
   },
   {
+    slug: "canada-latinoamericanos",
     title: "Canadá para latinoamericanos",
+    officialUrl: "https://www.international.gc.ca/education/scholarships-bourses.aspx?lang=eng",
     region: "internacional",
     type: "Internacional",
     level: "Maestría",
     description:
       "Convocatorias para posgrado con enfoque en investigación, ciencia y tecnología.",
+    audience: "Personas que buscan estudios de posgrado en el extranjero con foco académico e investigativo.",
+    benefits: ["Experiencia internacional", "Formación de posgrado", "Red académica global"],
+    documents: ["Pasaporte", "Certificados de idioma", "CV académico", "Carta de motivación"],
+    steps: [
+      "Busca programas vigentes en portales confiables.",
+      "Revisa idioma, admisión y fondos disponibles.",
+      "Reúne tus certificados y traducciones.",
+      "Aplica con tiempo y guarda evidencia.",
+    ],
+    tip: "Las becas internacionales suelen pedir más preparación previa, así que conviene empezar temprano.",
   },
   {
+    slug: "fondos-liderazgo",
     title: "Fondos de liderazgo",
+    officialUrl: "https://latinamericanleadershipacademy.org/es/financial-aid/",
     region: "fundacion",
     type: "Fundación",
     level: "Pregrado",
     description:
       "Apoyos que valoran voluntariado, deportes, clubes y compromiso social.",
+    audience: "Estudiantes que destacan por liderazgo, servicio y participación extracurricular.",
+    benefits: ["Reconocimiento al liderazgo", "Apoyo a proyectos", "Mayor valor de actividades sociales"],
+    documents: ["Carta de motivación", "Evidencias de liderazgo", "CV actualizado", "Referencias"],
+    steps: [
+      "Agrupa tus logros y evidencias.",
+      "Redacta una historia clara sobre tu liderazgo.",
+      "Aplica a la fundación u organización.",
+      "Da seguimiento y mantente activo.",
+    ],
+    tip: "No solo cuentan las notas: también importa lo que has construido fuera del aula.",
   },
 ];
 
@@ -60,14 +132,81 @@ const documents = [
   "Ensayos o proyectos personales (cuando se soliciten)",
 ];
 
+const vapaSections = [
+  {
+    title: "Explora becas",
+    description: "Lista de universidades y programas para aplicar, con requisitos y enlace oficial.",
+    route: "buscar",
+    accent: "blue",
+  },
+  {
+    title: "Guía práctica",
+    description: "Paso a paso para solicitar una beca, preparar documentos y ordenar tu proceso.",
+    route: "intro",
+    accent: "green",
+  },
+  {
+    title: "Alertas de convocatorias",
+    description: "Convocatorias activas, fechas y avisos para que no se te pase ningún cierre.",
+    route: "postulaciones",
+    accent: "yellow",
+  },
+  {
+    title: "Conoce antes de decidir",
+    description: "Pros y contras de una beca y lo que implica mantenerla a largo plazo.",
+    route: "recursos",
+    accent: "lilac",
+  },
+  {
+    title: "Resuelve tus dudas",
+    description: "Preguntas frecuentes sobre becas, universidades, requisitos y el proceso.",
+    route: "documentos",
+    accent: "mint",
+  },
+];
+
+const vapaAlerts = scholarships.slice(0, 3).map((item) => ({
+  title: item.title,
+  subtitle: item.level,
+  description: item.description,
+  route: `beca/${item.slug}`,
+}));
+
+const vapaFaqs = [
+  {
+    question: "¿Cómo sé si una beca me conviene?",
+    answer:
+      "Compara tu promedio, nivel académico, idioma, documentos y modalidad con lo que pide la convocatoria oficial.",
+  },
+  {
+    question: "¿Puedo guardar una postulación y seguir después?",
+    answer:
+      "Sí. VAPA guarda la solicitud como borrador, enviada o en revisión para que la retomes cuando quieras.",
+  },
+  {
+    question: "¿Dónde veo el enlace oficial de cada beca?",
+    answer:
+      "En la vista de detalle. Si la beca tiene portal oficial cargado, el botón te lleva directamente al sitio real.",
+  },
+  {
+    question: "¿Qué hago antes de enviar mi solicitud?",
+    answer:
+      "Revisa requisitos, reúne documentos, escribe un buen motivo y confirma la fecha límite antes de postular.",
+  },
+];
+
 const app = document.querySelector("#app");
+let appInteractionsBound = false;
 const searchState = {
   query: "",
   filter: "todos",
 };
+const applicationStatuses = ["Borrador", "En revisión", "Enviada"];
 const storageKeys = {
   users: "vapa_users",
   session: "vapa_session",
+  applications: "vapa_applications",
+  lastRoute: "vapa_last_route",
 };
 
 function loadUsers() {
@@ -110,13 +249,29 @@ function getCurrentUser() {
   return loadSession();
 }
 
+function loadLastRoute() {
+  return localStorage.getItem(storageKeys.lastRoute) || "";
+}
+
+function saveLastRoute(route) {
+  if (!route) {
+    return;
+  }
+
+  localStorage.setItem(storageKeys.lastRoute, route);
+}
+
 const routes = {
   inicio: renderInicio,
   home: renderInicio,
   dashboard: renderDashboard,
+  postulaciones: renderApplicationsView,
   intro: renderIntro,
+  secciones: renderVapaSections,
   perfil: renderProfile,
   buscar: renderSearch,
+  beca: renderScholarshipDetail,
+  postular: renderScholarshipApplication,
   documentos: renderDocuments,
   seguimiento: renderFollowUp,
   recursos: renderResources,
@@ -130,10 +285,34 @@ function navigate(route) {
 
 function getRoute() {
   const raw = window.location.hash.replace(/^#\//, "");
+  if (raw.startsWith("beca/")) {
+    return "beca";
+  }
+  if (raw.startsWith("postular/")) {
+    return "postular";
+  }
   return routes[raw] ? raw : "inicio";
 }
 
-function layout(title, subtitle, content, navRoute = getRoute()) {
+function getRouteParam() {
+  const raw = window.location.hash.replace(/^#\//, "");
+  if (raw.startsWith("beca/")) {
+    return raw.slice("beca/".length);
+  }
+  if (raw.startsWith("postular/")) {
+    return raw.slice("postular/".length);
+  }
+  return "";
+}
+
+function activeNavRoute(route = getRoute()) {
+  if (route === "beca" || route === "postular" || route === "postulaciones") {
+    return "buscar";
+  }
+  return route;
+}
+
+function layout(title, subtitle, content, navRoute = activeNavRoute()) {
   const user = getCurrentUser();
   return `
     <div class="shell">
@@ -163,6 +342,7 @@ function layout(title, subtitle, content, navRoute = getRoute()) {
       <nav class="bottom-nav" aria-label="Navegación de la app">
         ${navItem("inicio", "Inicio", navRoute)}
         ${navItem("dashboard", "Cuenta", navRoute)}
+        ${navItem("postulaciones", "Postulaciones", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
       </nav>
@@ -176,16 +356,31 @@ function navItem(route, label, activeRoute) {
 
 function renderInicio() {
   const user = getCurrentUser();
+  const featuredScholarships = scholarships.slice(0, 3);
+  const mobileApplications = [
+    { title: "Beca Innovación 2025", institution: "Fundación Educa", status: "En revisión", accent: "blue", time: "20 May 2025" },
+    { title: "Beca Talento Académico", institution: "Universidad del Futuro", status: "Enviada", accent: "green", time: "18 May 2025" },
+    { title: "Beca Formación Técnica", institution: "Instituto Superior", status: "Borrador", accent: "yellow", time: "10 May 2025" },
+  ];
+
   return `
     <div class="inicio-grid">
       <section class="hero-card reveal">
         <div class="hero-copy">
-          <span class="pill">Visualiza • Aprende • Progresa • Avanza</span>
-          <h2>Tu guía práctica para encontrar y solicitar becas.</h2>
+          <span class="pill">Tu espacio para crecer, aprender y alcanzar tus sueños</span>
+          <h2>Encuentra, comprende y solicita becas con una experiencia visual clara.</h2>
           <p class="lead">
-            Aquí empiezas con una vista clara: identificas tu perfil, buscas en fuentes
-            confiables, organizas documentos y haces seguimiento sin perderte entre pantallas.
+            VAPA reúne el contenido del prototipo en una interfaz más parecida a una app real:
+            vista de inicio, buscador, detalle de beca, postulaciones y seguimiento, con un diseño
+            pensado para escritorio y móvil.
           </p>
+
+          <div class="hero-badges">
+            <span>Inicio</span>
+            <span>Buscar</span>
+            <span>Recursos</span>
+            <span>Postulaciones</span>
+          </div>
 
           ${
             user
@@ -195,40 +390,147 @@ function renderInicio() {
 
           <div class="cta-row">
             <button class="btn btn-primary" type="button" data-route="intro">Comenzar</button>
+            <button class="btn btn-secondary" type="button" data-route="buscar">Explorar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="secciones">Qué incluye VAPA</button>
             <button class="btn btn-secondary" type="button" data-route="${user ? "dashboard" : "register"}">
               ${user ? "Ir a mi cuenta" : "Crear cuenta"}
             </button>
           </div>
-        </div>
-      </section>
 
-      <section class="quick-panel reveal">
-        <div class="phone screen-card">
-          <div class="dashboard-head">
-            <div>
-              <p class="small-label">Resumen</p>
-              <h3>Lo que encontrarás</h3>
+          <div class="stat-grid">
+            <article class="stat-card">
+              <strong>8</strong>
+              <span>pasos prácticos</span>
+            </article>
+            <article class="stat-card">
+              <strong>6</strong>
+              <span>secciones clave</span>
+            </article>
+            <article class="stat-card">
+              <strong>1</strong>
+              <span>flujo multiplataforma</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-showcase">
+          <div class="device laptop-mock">
+            <div class="device-topbar">
+              <span class="device-dots">
+                <i></i><i></i><i></i>
+              </span>
+              <span class="device-brand">VAPA</span>
             </div>
-            <div class="heart">♡</div>
+            <div class="laptop-screen">
+              <aside class="laptop-sidebar">
+                <div class="sidebar-brand">
+                  <span class="sidebar-cap">🎓</span>
+                  <strong>VAPA</strong>
+                </div>
+                <button class="sidebar-item active" type="button">Inicio</button>
+                <button class="sidebar-item" type="button">Buscar</button>
+                <button class="sidebar-item" type="button">Recursos</button>
+                <button class="sidebar-item" type="button">Postulaciones</button>
+              </aside>
+
+              <section class="laptop-main">
+                <div class="laptop-banner">
+                  <div>
+                    <p class="section-kicker">Encuentra la beca</p>
+                    <h3>que impulsa tu futuro</h3>
+                    <div class="search-pill">
+                      <span>Buscar becas, instituciones o palabras clave...</span>
+                      <button type="button">⌕</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="showcase-row">
+                  ${featuredScholarships
+                    .map(
+                      (item, index) => `
+                        <article class="mini-scholarship mini-${index === 0 ? "green" : index === 1 ? "blue" : "yellow"}">
+                          <span class="mini-tag">${escapeHtml(item.level)}</span>
+                          <h4>${escapeHtml(item.title)}</h4>
+                          <p>${escapeHtml(item.audience.slice(0, 90))}...</p>
+                          <button type="button">Ver detalle</button>
+                        </article>
+                      `,
+                    )
+                    .join("")}
+                </div>
+
+                <div class="category-row">
+                  <span>Académicas</span>
+                  <span>Investigación</span>
+                  <span>Movilidad</span>
+                  <span>Técnicas</span>
+                  <span>Deportivas</span>
+                </div>
+              </section>
+
+              <aside class="laptop-detail">
+                <span class="pill detail-pill">Pregrado</span>
+                <h4>Beca Talento Académico</h4>
+                <p>Apoyo económico para estudiantes con excelente rendimiento académico.</p>
+                <div class="detail-meta">
+                  <div><strong>Modalidad</strong><span>Presencial</span></div>
+                  <div><strong>Cobertura</strong><span>Parcial</span></div>
+                  <div><strong>Fecha de cierre</strong><span>30 Jun 2025</span></div>
+                  <div><strong>Requisitos</strong><span>Promedio mínimo, carta y expediente</span></div>
+                </div>
+                <button class="btn btn-primary device-cta" type="button" data-route="postulaciones">Solicitar beca</button>
+              </aside>
+            </div>
           </div>
 
-          <div class="grid-menu">
-            <button class="menu-card blue" type="button" data-route="perfil">
-              <span class="menu-icon">👤</span>
-              <strong>Perfil académico</strong>
-            </button>
-            <button class="menu-card green" type="button" data-route="buscar">
-              <span class="menu-icon">🔎</span>
-              <strong>Fuentes confiables</strong>
-            </button>
-            <button class="menu-card lilac" type="button" data-route="documentos">
-              <span class="menu-icon">📄</span>
-              <strong>Documentos</strong>
-            </button>
-            <button class="menu-card yellow" type="button" data-route="seguimiento">
-              <span class="menu-icon">👑</span>
-              <strong>Seguimiento</strong>
-            </button>
+          <div class="device phone-mock">
+            <div class="phone-notch"></div>
+            <div class="phone-shell">
+              <div class="phone-head">
+                <div>
+                  <p class="section-kicker">VAPA</p>
+                  <h3>Mis postulaciones</h3>
+                </div>
+                <span class="phone-bell">🔔</span>
+              </div>
+
+              <div class="tabs-row">
+                <span class="tab active">Todas</span>
+                <span class="tab">Activas</span>
+                <span class="tab">Finalizadas</span>
+              </div>
+
+              <div class="status-stack">
+                ${mobileApplications
+                  .map(
+                    (item) => `
+                      <article class="status-card ${item.accent}">
+                        <div class="status-icon">${item.accent === "green" ? "🎓" : item.accent === "blue" ? "📘" : "🗂️"}</div>
+                        <div class="status-copy">
+                          <strong>${escapeHtml(item.title)}</strong>
+                          <span>${escapeHtml(item.institution)}</span>
+                          <small>Estado</small>
+                          <div class="status-row">
+                            <span class="status-chip">${escapeHtml(item.status)}</span>
+                            <span class="status-date">Actualizado: ${escapeHtml(item.time)}</span>
+                          </div>
+                        </div>
+                      </article>
+                    `,
+                  )
+                  .join("")}
+              </div>
+
+              <button class="btn btn-primary phone-cta" type="button" data-route="postulaciones">Nueva postulación</button>
+
+              <nav class="phone-nav" aria-label="Navegación móvil">
+                <span class="phone-nav-item active">Inicio</span>
+                <span class="phone-nav-item">Buscar</span>
+                <span class="phone-nav-item">Recursos</span>
+                <span class="phone-nav-item">Postulaciones</span>
+              </nav>
+            </div>
           </div>
         </div>
       </section>
@@ -252,6 +554,10 @@ function renderInicio() {
             <button class="summary-card" type="button" data-route="login">
               <strong>Cuenta</strong>
               <span>Inicia sesión o regístrate.</span>
+            </button>
+            <button class="summary-card" type="button" data-route="secciones">
+              <strong>Qué incluye VAPA</strong>
+              <span>Explora becas, guía, alertas y dudas frecuentes.</span>
             </button>
           </div>
         </article>
@@ -313,6 +619,91 @@ function renderDashboard() {
   );
 }
 
+function renderApplicationsView() {
+  const user = getCurrentUser();
+  const applications = loadApplications();
+  const userEmail = user?.email?.toLowerCase?.() || "";
+  const visibleApplications = userEmail
+    ? applications.filter((item) => String(item.email || "").trim().toLowerCase() === userEmail)
+    : applications;
+
+  const content =
+    visibleApplications.length > 0
+      ? `
+        <div class="applications-grid">
+          ${visibleApplications
+            .map((application) => {
+              const scholarship = getScholarshipBySlug(application.scholarshipSlug);
+              const createdAt = application.createdAt ? new Date(application.createdAt) : null;
+              const dateLabel =
+                createdAt && !Number.isNaN(createdAt.getTime())
+                  ? createdAt.toLocaleDateString("es-DO", { year: "numeric", month: "short", day: "numeric" })
+                  : "Fecha no disponible";
+              const status = getApplicationStatusLabel(application.status);
+              const statusClass = status.toLowerCase().replaceAll(" ", "-");
+
+              return `
+                <article class="panel-box application-card">
+                  <div class="application-head">
+                    <div>
+                      <p class="section-kicker">Postulación guardada</p>
+                      <h3>${escapeHtml(application.scholarshipTitle || "Beca")}</h3>
+                    </div>
+                    <div class="application-badges">
+                      <span class="pill status-pill status-${escapeHtml(statusClass)}">${escapeHtml(status)}</span>
+                      <span class="pill">${escapeHtml(dateLabel)}</span>
+                    </div>
+                  </div>
+                  <div class="stack-list compact">
+                    <div><strong>Nombre</strong><span>${escapeHtml(application.name || "Sin nombre")}</span></div>
+                    <div><strong>Correo</strong><span>${escapeHtml(application.email || "Sin correo")}</span></div>
+                    ${application.phone ? `<div><strong>Teléfono</strong><span>${escapeHtml(application.phone)}</span></div>` : ""}
+                    <div><strong>Motivo</strong><span>${escapeHtml(application.message || "")}</span></div>
+                  </div>
+                  <div class="detail-actions application-actions">
+                    ${scholarship ? `<button class="btn btn-primary" type="button" data-route="beca/${scholarship.slug}">Ver beca</button>` : ""}
+                    <button class="btn btn-secondary" type="button" data-route="postular/${application.scholarshipSlug}">Abrir solicitud</button>
+                    <button class="btn btn-secondary" type="button" data-action="cycle-application-status" data-application-id="${escapeHtml(application.id)}">Cambiar estado</button>
+                    <button class="ghost-btn danger" type="button" data-action="delete-application" data-application-id="${escapeHtml(application.id)}">Eliminar</button>
+                  </div>
+                </article>
+              `;
+            })
+            .join("")}
+        </div>
+      `
+      : `
+        <article class="panel-box detail-empty">
+          <h3>Aún no tienes postulaciones guardadas</h3>
+          <p class="panel-text">
+            Cuando abras una beca y guardes su solicitud, aparecerá aquí para que puedas retomarla después.
+          </p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Buscar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="inicio">Ir al inicio</button>
+          </div>
+        </article>
+      `;
+
+  return layout(
+    "Cuenta",
+    "Mis postulaciones",
+    `
+      <div class="applications-shell">
+        <article class="panel-box accent">
+          <h3>Tu historial</h3>
+          <p class="panel-text">
+            Aquí ves las solicitudes guardadas en este navegador. Si inicias sesión con el mismo correo,
+            te resultará más fácil seguir tu avance.
+          </p>
+        </article>
+        ${content}
+      </div>
+    `,
+    "dashboard",
+  );
+}
+
 function renderIntro() {
   const steps = [
     ["1", "Identifica tu perfil", "País, carrera, promedio, idiomas y objetivos."],
@@ -356,9 +747,116 @@ function renderIntro() {
             <div><strong>Paso 7</strong><span>Guarda el comprobante.</span></div>
             <div><strong>Paso 8</strong><span>No te limites a una sola beca.</span></div>
           </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="button" data-route="secciones">Ver lo que incluye VAPA</button>
+            <button class="btn btn-secondary" type="button" data-route="buscar">Ir a becas</button>
+          </div>
         </aside>
       </div>
     `
+  );
+}
+
+function renderVapaSections() {
+  return layout(
+    "Sección VAPA",
+    "¿Qué incluye?",
+    `
+      <div class="vapa-hub">
+        <article class="panel-box accent">
+          <p class="panel-text">
+            Esta vista reúne las partes más importantes del prototipo: exploración de becas, guía práctica,
+            alertas, recomendaciones para decidir y respuestas rápidas a dudas frecuentes.
+          </p>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="button" data-route="buscar">Explorar becas</button>
+            <button class="btn btn-secondary" type="button" data-route="intro">Guía práctica</button>
+            <button class="btn btn-secondary" type="button" data-route="postulaciones">Postulaciones</button>
+          </div>
+        </article>
+
+        <section class="feature-grid">
+          ${vapaSections
+            .map(
+              (item) => `
+                <article class="feature-card feature-${escapeHtml(item.accent)}">
+                  <p class="section-kicker">VAPA</p>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <p>${escapeHtml(item.description)}</p>
+                  <div class="feature-actions">
+                    <button class="btn btn-secondary" type="button" data-route="${escapeHtml(item.route)}">Abrir</button>
+                  </div>
+                </article>
+              `,
+            )
+            .join("")}
+        </section>
+
+        <div class="two-col">
+          <article class="panel-box">
+            <h3>Alertas de convocatorias</h3>
+            <p class="panel-text">
+              Aquí puedes ver ejemplos de convocatorias destacadas y entrar directo al detalle o al enlace oficial.
+            </p>
+            <div class="alert-list">
+              ${vapaAlerts
+                .map(
+                  (item) => `
+                    <article class="alert-item">
+                      <div>
+                        <strong>${escapeHtml(item.title)}</strong>
+                        <span>${escapeHtml(item.subtitle)}</span>
+                        <p>${escapeHtml(item.description)}</p>
+                      </div>
+                      <button class="btn btn-secondary" type="button" data-route="${escapeHtml(item.route)}">Ver detalle</button>
+                    </article>
+                  `,
+                )
+                .join("")}
+            </div>
+          </article>
+
+          <article class="panel-box accent">
+            <h3>Resuelve tus dudas</h3>
+            <div class="faq-list">
+              ${vapaFaqs
+                .map(
+                  (item) => `
+                    <details class="faq-item">
+                      <summary>${escapeHtml(item.question)}</summary>
+                      <p>${escapeHtml(item.answer)}</p>
+                    </details>
+                  `,
+                )
+                .join("")}
+            </div>
+          </article>
+        </div>
+
+        <article class="panel-box">
+          <h3>Conoce antes de decidir</h3>
+          <div class="pros-cons">
+            <div class="pros-card">
+              <strong>Pros</strong>
+              <ul class="detail-list">
+                <li>Apoyo económico para estudiar sin tanta presión financiera.</li>
+                <li>Acceso a mejores universidades, programas y redes académicas.</li>
+                <li>Más posibilidades de crecer profesional y personalmente.</li>
+              </ul>
+            </div>
+            <div class="cons-card">
+              <strong>Contras</strong>
+              <ul class="detail-list">
+                <li>Hay que cumplir requisitos y mantener el rendimiento.</li>
+                <li>El proceso puede tomar tiempo y pedir varios documentos.</li>
+                <li>Algunas becas exigen reportes, compromiso o seguimiento constante.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    `,
+    "secciones",
   );
 }
 
@@ -636,18 +1134,281 @@ function renderScholarshipCards() {
   return filtered
     .map(
       (item) => `
-        <article class="scholarship-card">
+        <button type="button" class="scholarship-card scholarship-card-action" data-route="beca/${item.slug}">
           <div class="meta-row">
-            <span>${item.region}</span>
-            <span>${item.type}</span>
-            <span>${item.level}</span>
+            <span>${escapeHtml(item.region)}</span>
+            <span>${escapeHtml(item.type)}</span>
+            <span>${escapeHtml(item.level)}</span>
           </div>
-          <h4>${item.title}</h4>
-          <p>${item.description}</p>
-        </article>
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.description)}</p>
+          <span class="card-link">Ver detalle</span>
+        </button>
       `,
     )
     .join("");
+}
+
+function getScholarshipBySlug(slug) {
+  return scholarships.find((item) => item.slug === slug) || null;
+}
+
+function renderScholarshipDetail() {
+  const slug = getRouteParam();
+  const scholarship = getScholarshipBySlug(slug);
+
+  if (!scholarship) {
+    return layout(
+      "Beca",
+      "No encontramos esa beca",
+      `
+        <div class="panel-box detail-empty">
+          <p class="panel-text">Esa beca no está disponible ahora mismo o el enlace no es válido.</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+            <button class="btn btn-secondary" type="button" data-route="inicio">Ir al inicio</button>
+          </div>
+        </div>
+      `,
+      "buscar",
+    );
+  }
+
+  return layout(
+    scholarship.title,
+    "Detalle de la beca",
+    `
+      <div class="detail-shell">
+        <article class="panel-box scholarship-hero">
+          <div class="hero-topline">
+            <span class="pill">${escapeHtml(scholarship.region)}</span>
+            <span class="pill">${escapeHtml(scholarship.type)}</span>
+            <span class="pill">${escapeHtml(scholarship.level)}</span>
+          </div>
+          <h3>${escapeHtml(scholarship.title)}</h3>
+          <p class="panel-text">${escapeHtml(scholarship.description)}</p>
+          <p class="detail-audience">${escapeHtml(scholarship.audience)}</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-action="open-application" data-slug="${escapeHtml(scholarship.slug)}">Solicitar esta beca</button>
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+            <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
+          </div>
+        </article>
+
+        <div class="detail-grid">
+          <article class="panel-box">
+            <h4>Beneficios</h4>
+            <ul class="detail-list">
+              ${scholarship.benefits.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </article>
+
+          <article class="panel-box">
+            <h4>Documentos clave</h4>
+            <ul class="detail-list">
+              ${scholarship.documents.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </article>
+
+          <article class="panel-box">
+            <h4>Cómo aplicar</h4>
+            <ol class="detail-steps">
+              ${scholarship.steps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ol>
+          </article>
+
+          <article class="panel-box accent">
+            <h4>Consejo rápido</h4>
+            <p class="panel-text">${escapeHtml(scholarship.tip)}</p>
+            <div class="detail-note">
+              <strong>Recomendación</strong>
+              <span>Guarda el enlace, revisa fechas y prepara tu expediente antes de empezar.</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    `,
+    "buscar",
+  );
+}
+
+function loadApplications() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(storageKeys.applications) || "[]");
+    let changed = false;
+    const normalized = raw.map((item) => {
+      if (!item.id || !item.status) {
+        changed = true;
+      }
+
+      return {
+        ...item,
+        id: item.id || createApplicationId(),
+        status: getApplicationStatusLabel(item.status),
+      };
+    });
+
+    if (changed) {
+      saveApplications(normalized);
+    }
+
+    return normalized;
+  } catch {
+    return [];
+  }
+}
+
+function saveApplications(applications) {
+  localStorage.setItem(storageKeys.applications, JSON.stringify(applications));
+}
+
+function createApplicationId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+
+  return `app_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function getApplicationStatusLabel(status) {
+  return applicationStatuses.includes(status) ? status : "Borrador";
+}
+
+function getNextApplicationStatus(status) {
+  const currentIndex = applicationStatuses.indexOf(getApplicationStatusLabel(status));
+  return applicationStatuses[(currentIndex + 1) % applicationStatuses.length];
+}
+
+function findApplicationById(id) {
+  return loadApplications().find((item) => item.id === id) || null;
+}
+
+function updateApplicationStatus(id) {
+  const applications = loadApplications();
+  const index = applications.findIndex((item) => item.id === id);
+  if (index === -1) {
+    return;
+  }
+
+  applications[index] = {
+    ...applications[index],
+    status: getNextApplicationStatus(applications[index].status),
+  };
+
+  saveApplications(applications);
+  renderCurrentView();
+}
+
+function deleteApplicationById(id) {
+  const application = findApplicationById(id);
+  if (!application) {
+    return;
+  }
+
+  const confirmed = window.confirm(`¿Quieres eliminar la postulación de ${application.scholarshipTitle || "esta beca"}?`);
+  if (!confirmed) {
+    return;
+  }
+
+  const remaining = loadApplications().filter((item) => item.id !== id);
+  saveApplications(remaining);
+  renderCurrentView();
+}
+
+function renderScholarshipApplication() {
+  const slug = getRouteParam();
+  const scholarship = getScholarshipBySlug(slug);
+  const user = getCurrentUser();
+
+  if (!scholarship) {
+    return layout(
+      "Solicitar beca",
+      "No encontramos esa beca",
+      `
+        <div class="panel-box detail-empty">
+          <p class="panel-text">No se pudo abrir la solicitud porque el enlace no es válido.</p>
+          <div class="detail-actions">
+            <button class="btn btn-primary" type="button" data-route="buscar">Volver al buscador</button>
+          </div>
+        </div>
+      `,
+      "buscar",
+    );
+  }
+
+  return layout(
+    scholarship.title,
+    "Solicitud de beca",
+    `
+      <div class="detail-shell">
+        <article class="panel-box scholarship-hero">
+          <div class="hero-topline">
+            <span class="pill">${escapeHtml(scholarship.region)}</span>
+            <span class="pill">${escapeHtml(scholarship.type)}</span>
+            <span class="pill">${escapeHtml(scholarship.level)}</span>
+          </div>
+          <h3>Solicita ${escapeHtml(scholarship.title)}</h3>
+          <p class="panel-text">
+            Completa esta solicitud para dejar tu avance registrado y organizar mejor tu postulación.
+          </p>
+          <div class="detail-actions">
+            <button class="btn btn-secondary" type="button" data-route="beca/${scholarship.slug}">Volver al detalle</button>
+            <button class="btn btn-secondary" type="button" data-route="documentos">Revisar documentos</button>
+          </div>
+        </article>
+
+        <div class="two-col">
+          <article class="panel-box">
+            <h4>Datos de la solicitud</h4>
+            <form class="application-form" data-application-form="scholarship">
+              <label>
+                Nombre completo
+                <input type="text" name="name" value="${escapeHtml(user?.name || "")}" placeholder="Tu nombre" required />
+              </label>
+              <label>
+                Correo electrónico
+                <input type="email" name="email" value="${escapeHtml(user?.email || "")}" placeholder="tu@email.com" required />
+              </label>
+              <label>
+                Teléfono
+                <input type="tel" name="phone" placeholder="Ej. 809 000 0000" />
+              </label>
+              <label>
+                Motivo principal
+                <textarea name="message" rows="5" placeholder="Cuéntanos por qué quieres esta beca" required></textarea>
+              </label>
+              <label>
+                Estado inicial
+                <select name="status">
+                  <option value="Borrador">Borrador</option>
+                  <option value="En revisión">En revisión</option>
+                  <option value="Enviada">Enviada</option>
+                </select>
+              </label>
+              <input type="hidden" name="scholarshipSlug" value="${escapeHtml(scholarship.slug)}" />
+              <input type="hidden" name="scholarshipTitle" value="${escapeHtml(scholarship.title)}" />
+              <button class="btn btn-primary" type="submit">Guardar solicitud</button>
+            </form>
+          </article>
+
+          <aside class="panel-box accent">
+            <h4>Antes de enviar</h4>
+            <div class="stack-list compact">
+              <div><strong>1. Revisa</strong><span>Verifica requisitos, fecha límite y documentos.</span></div>
+              <div><strong>2. Completa</strong><span>Llena tu información sin dejar campos vacíos.</span></div>
+              <div><strong>3. Guarda</strong><span>Tu avance quedará registrado en el navegador.</span></div>
+              <div><strong>4. Continúa</strong><span>Si quieres, luego seguimos con el portal oficial.</span></div>
+            </div>
+            <div class="detail-note">
+              <strong>Nota</strong>
+              <span>Esto funciona como un paso de organización dentro de VAPA. Si existe portal oficial, puedes enlazarlo después.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    `,
+    "buscar",
+  );
 }
 
 function escapeHtml(value) {
@@ -661,6 +1422,8 @@ function escapeHtml(value) {
 
 function renderCurrentView() {
   const route = getRoute();
+  const rawRoute = window.location.hash.replace(/^#\//, "");
+  saveLastRoute(rawRoute || route);
   const view = routes[route]();
   app.innerHTML = view;
   bindViewEvents();
@@ -787,6 +1550,41 @@ function updateDynamicFields() {
     });
   });
 
+  document.querySelectorAll("[data-application-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const scholarshipSlug = String(formData.get("scholarshipSlug") || "").trim();
+      const scholarshipTitle = String(formData.get("scholarshipTitle") || "").trim();
+      const name = String(formData.get("name") || "").trim();
+      const email = String(formData.get("email") || "").trim();
+      const phone = String(formData.get("phone") || "").trim();
+      const message = String(formData.get("message") || "").trim();
+
+      if (!name || !email || !message) {
+        alert("Completa nombre, correo y motivo principal.");
+        return;
+      }
+
+      const applications = loadApplications();
+      applications.unshift({
+        id: createApplicationId(),
+        scholarshipSlug,
+        scholarshipTitle,
+        name,
+        email,
+        phone,
+        message,
+        status: getApplicationStatusLabel(String(formData.get("status") || "Borrador").trim()),
+        createdAt: new Date().toISOString(),
+      });
+      saveApplications(applications);
+
+      alert(`Tu solicitud para ${scholarshipTitle || "esta beca"} quedó guardada.`);
+      navigate("postulaciones");
+    });
+  });
+
   document.querySelectorAll("[data-action='logout']").forEach((button) => {
     button.addEventListener("click", () => {
       clearSession();
@@ -796,8 +1594,48 @@ function updateDynamicFields() {
 }
 
 function bindViewEvents() {
-  document.querySelectorAll("[data-route]").forEach((element) => {
-    element.addEventListener("click", () => navigate(element.dataset.route));
+  if (appInteractionsBound) {
+    return;
+  }
+
+  appInteractionsBound = true;
+
+  app.addEventListener("click", (event) => {
+    const routeTarget = event.target.closest("[data-route]");
+    if (routeTarget && app.contains(routeTarget)) {
+      navigate(routeTarget.dataset.route);
+      return;
+    }
+
+    const actionTarget = event.target.closest("[data-action]");
+    if (!actionTarget || !app.contains(actionTarget)) {
+      return;
+    }
+
+    const { action } = actionTarget.dataset;
+    if (action === "open-application") {
+      const slug = actionTarget.dataset.slug;
+      const scholarship = getScholarshipBySlug(slug);
+      const officialUrl = scholarship?.officialUrl?.trim();
+
+      if (officialUrl) {
+        window.open(officialUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      navigate(`postular/${slug}`);
+      return;
+    }
+
+    if (action === "cycle-application-status") {
+      updateApplicationStatus(actionTarget.dataset.applicationId);
+      return;
+    }
+
+    if (action === "delete-application") {
+      deleteApplicationById(actionTarget.dataset.applicationId);
+      return;
+    }
   });
 }
 
@@ -806,9 +1644,12 @@ function updateTitle(route) {
     inicio: "VAPA | Inicio",
     home: "VAPA | Inicio",
     dashboard: "Cuenta | VAPA",
+    postulaciones: "Mis postulaciones | VAPA",
     intro: "Introducción | VAPA",
+    secciones: "Sección VAPA | VAPA",
     perfil: "Perfil académico | VAPA",
     buscar: "Buscar becas | VAPA",
+    postular: "Solicitar beca | VAPA",
     documentos: "Documentos | VAPA",
     seguimiento: "Seguimiento | VAPA",
     recursos: "Recursos | VAPA",
@@ -816,12 +1657,36 @@ function updateTitle(route) {
     register: "Registrarse | VAPA",
   };
 
+  if (route === "beca" || route === "postular" || route === "postulaciones") {
+    const scholarship = getScholarshipBySlug(getRouteParam());
+    document.title = scholarship
+      ? `${scholarship.title} | VAPA`
+      : route === "postular"
+        ? "Solicitar beca | VAPA"
+        : route === "postulaciones"
+          ? "Mis postulaciones | VAPA"
+        : "Beca | VAPA";
+    return;
+  }
+
   document.title = titles[route] || "VAPA | Becas";
 }
 
 window.addEventListener("hashchange", renderCurrentView);
 window.addEventListener("DOMContentLoaded", () => {
   if (!window.location.hash) {
+    const savedRoute = loadLastRoute();
+
+    if (savedRoute) {
+      navigate(savedRoute);
+      return;
+    }
+
+    if (getCurrentUser()) {
+      navigate("dashboard");
+      return;
+    }
+
     navigate("inicio");
     return;
   }
