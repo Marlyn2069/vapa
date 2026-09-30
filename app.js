@@ -472,7 +472,7 @@ function layout(title, subtitle, content, navRoute = activeNavRoute()) {
 
       <nav class="bottom-nav" aria-label="Navegación de la app">
         ${navItem("inicio", "Inicio", navRoute)}
-        ${navItem("dashboard", "Cuenta", navRoute)}
+        ${navItem("dashboard", "Perfil", navRoute)}
         ${navItem("postulaciones", "Postulaciones", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
@@ -1772,10 +1772,33 @@ function renderCurrentView() {
   saveLastRoute(rawRoute || route);
   const view = routes[route]();
   app.innerHTML = view;
+  updateGlobalHeader();
   bindViewEvents();
   refreshSearchView();
   updateDynamicFields();
   updateTitle(route);
+}
+
+function updateGlobalHeader() {
+  const user = getCurrentUser();
+  const brand = document.querySelector(".brand-button");
+  const topnav = document.querySelector(".topnav");
+
+  if (brand) {
+    brand.dataset.route = user ? "inicio" : "portada";
+  }
+
+  if (!topnav) return;
+
+  topnav.innerHTML = user
+    ? `
+        <a href="#/dashboard">Perfil</a>
+        <button class="topnav-action" type="button" data-action="global-logout">Cerrar sesión</button>
+      `
+    : `
+        <a href="#/login">Iniciar sesión</a>
+        <a href="#/register">Registrarse</a>
+      `;
 }
 
 function refreshSearchView() {
@@ -2016,11 +2039,21 @@ function bindViewEvents() {
     }
 
     const actionTarget = event.target.closest("[data-action]");
-    if (!actionTarget || !app.contains(actionTarget)) {
+    if (!actionTarget) {
       return;
     }
 
     const { action } = actionTarget.dataset;
+    if (action === "global-logout") {
+      clearSession();
+      localStorage.removeItem(storageKeys.planOfferDismissed);
+      navigate("portada");
+      return;
+    }
+
+    if (!app.contains(actionTarget)) {
+      return;
+    }
     if (action === "open-application") {
       const slug = actionTarget.dataset.slug;
       const scholarship = getScholarshipBySlug(slug);

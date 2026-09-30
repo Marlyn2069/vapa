@@ -160,6 +160,17 @@ select {
   font-weight: 700;
 }
 
+.topnav-action {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .layout {
   width: min(1600px, calc(100% - 48px));
   margin: 0 auto;
