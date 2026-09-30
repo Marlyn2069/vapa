@@ -2953,3 +2953,62 @@ select {
     margin: 0;
   }
 }
+
+/* Final responsive overrides stay last so the home view cannot overflow its viewport. */
+@media (min-width: 1121px) {
+  .inicio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    grid-template-columns: minmax(330px, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .hero-showcase {
+    grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.72fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-showcase {
+    display: none;
+  }
+
+  .hero-copy {
+    padding: 0;
+  }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-badges span {
+    text-align: center;
+    padding: 9px 8px;
+    font-size: 0.82rem;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .stat-card {
+    min-width: 0;
+    padding: 12px 8px;
+  }
+
+  .stat-card strong {
+    font-size: 1.45rem;
+  }
+
+  .stat-card span {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+}
