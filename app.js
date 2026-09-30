@@ -401,13 +401,30 @@ function renderLanding() {
         </div>
       </section>
 
-      <section class="landing-features" aria-label="Funciones principales">
+      <section class="landing-features landing-animated" aria-label="Funciones principales">
         <article><span>01</span><strong>Explora becas</strong><p>Busca por carrera, universidad o institución.</p></article>
         <article><span>02</span><strong>Prepárate mejor</strong><p>Conoce requisitos, documentos y fechas.</p></article>
         <article><span>03</span><strong>Avanza con orden</strong><p>Guarda tus postulaciones y recibe alertas.</p></article>
       </section>
 
-      <section class="landing-opportunities">
+      <section class="landing-explorer landing-animated" aria-labelledby="landingExplorerTitle">
+        <div class="landing-explorer-copy">
+          <p class="section-kicker">Explora tu camino</p>
+          <h3 id="landingExplorerTitle">¿Qué oportunidad estás buscando?</h3>
+          <p>Selecciona una opción y descubre cómo VAPA puede ayudarte a dar el siguiente paso.</p>
+          <div class="landing-topic-tabs" role="tablist" aria-label="Tipos de oportunidades">
+            <button class="landing-topic active" type="button" data-landing-topic="universidad">Universidad</button>
+            <button class="landing-topic" type="button" data-landing-topic="tecnologia">Tecnología</button>
+            <button class="landing-topic" type="button" data-landing-topic="liderazgo">Liderazgo</button>
+          </div>
+        </div>
+        <article class="landing-topic-panel" id="landingTopicPanel">
+          <span class="landing-topic-icon">🎓</span>
+          <div><p class="section-kicker">Oportunidad universitaria</p><h4>Encuentra apoyo para iniciar o continuar tu carrera.</h4><p>Compara instituciones, revisa admisiones y guarda las becas que mejor se ajusten a tu perfil.</p></div>
+        </article>
+      </section>
+
+      <section class="landing-opportunities landing-animated">
         <div class="landing-photo-wrap">
           <img src="./assets/landing-opportunities.png" alt="Estudiantes estudiando, trabajando en tecnología y recibiendo orientación académica" />
         </div>
@@ -423,7 +440,7 @@ function renderLanding() {
         </div>
       </section>
 
-      <section class="landing-institutions" aria-labelledby="landingInstitutionsTitle">
+      <section class="landing-institutions landing-animated" aria-labelledby="landingInstitutionsTitle">
         <div class="landing-section-heading">
           <div>
             <p class="section-kicker">Instituciones que puedes revisar</p>
@@ -1858,6 +1875,41 @@ function refreshSearchView() {
 }
 
 function updateDynamicFields() {
+  const landingTopicPanel = document.querySelector("#landingTopicPanel");
+  const landingTopics = {
+    universidad: {
+      icon: "🎓",
+      label: "Oportunidad universitaria",
+      title: "Encuentra apoyo para iniciar o continuar tu carrera.",
+      description: "Compara instituciones, revisa admisiones y guarda las becas que mejor se ajusten a tu perfil.",
+    },
+    tecnologia: {
+      icon: "💻",
+      label: "Formación tecnológica",
+      title: "Conviértete en parte de la próxima generación digital.",
+      description: "Descubre programas técnicos, software, ciberseguridad y áreas STEM con apoyo académico.",
+    },
+    liderazgo: {
+      icon: "🌱",
+      label: "Liderazgo e investigación",
+      title: "Convierte tu talento en impacto para tu comunidad.",
+      description: "Explora convocatorias que valoran voluntariado, investigación, liderazgo y compromiso social.",
+    },
+  };
+
+  document.querySelectorAll("[data-landing-topic]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const topic = landingTopics[button.dataset.landingTopic];
+      if (!topic || !landingTopicPanel) return;
+      document.querySelectorAll("[data-landing-topic]").forEach((item) => item.classList.toggle("active", item === button));
+      landingTopicPanel.innerHTML = `<span class="landing-topic-icon">${topic.icon}</span><div><p class="section-kicker">${topic.label}</p><h4>${topic.title}</h4><p>${topic.description}</p></div>`;
+      landingTopicPanel.classList.remove("topic-change");
+      window.requestAnimationFrame(() => landingTopicPanel.classList.add("topic-change"));
+    });
+  });
+
+  document.querySelectorAll(".landing-animated").forEach((section) => section.classList.add("is-visible"));
+
   const homeSearchForm = document.querySelector("#homeSearchForm");
   const homeSearch = document.querySelector("#homeSearch");
   if (homeSearchForm && homeSearch) {
