@@ -527,10 +527,10 @@ function layout(title, subtitle, content, navRoute = activeNavRoute()) {
 
       <nav class="bottom-nav" aria-label="Navegación de la app">
         ${navItem("inicio", "Inicio", navRoute)}
-        ${navItem("dashboard", "Perfil", navRoute)}
         ${navItem("postulaciones", "Postulaciones", navRoute)}
         ${navItem("intro", "Guía", navRoute)}
         ${navItem("buscar", "Buscar", navRoute)}
+        ${navItem("alertas", "Alertas", navRoute)}
       </nav>
     </div>
   `;
