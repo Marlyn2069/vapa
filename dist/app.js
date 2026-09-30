@@ -838,17 +838,24 @@ function renderDashboard() {
             <div class="plan-offer-backdrop" role="presentation">
               <section class="plan-offer" role="dialog" aria-modal="true" aria-labelledby="planOfferTitle">
                 <button class="plan-offer-close" type="button" aria-label="Cerrar oferta" data-action="continue-free-plan">×</button>
-                <p class="section-kicker">Una mejor ruta para tus metas</p>
-                <h3 id="planOfferTitle">Prueba VAPA Premium</h3>
-                <p>Organiza mejor tus postulaciones con alertas, plantillas y herramientas avanzadas.</p>
-                <div class="plan-offer-features">
-                  <span>Alertas por carrera</span>
-                  <span>Plantillas premium</span>
-                  <span>Seguimiento avanzado</span>
-                </div>
-                <div class="plan-offer-actions">
-                  <button class="btn btn-primary" type="button" data-action="choose-premium">Ver plan Premium</button>
-                  <button class="btn btn-secondary" type="button" data-action="continue-free-plan">Continuar con el plan gratuito por 3 meses</button>
+                <p class="section-kicker">Elige cómo avanzar</p>
+                <h3 id="planOfferTitle">Tu ruta en VAPA</h3>
+                <p>Comienza gratis o desbloquea herramientas avanzadas para organizar mejor tus oportunidades.</p>
+                <div class="plan-offer-cards">
+                  <article class="plan-offer-card">
+                    <span class="plan-offer-label">Para empezar</span>
+                    <h4>Plan Básico</h4>
+                    <strong class="plan-offer-price">Gratis</strong>
+                    <ul><li>Buscador de becas</li><li>Guías y documentos</li><li>Postulaciones guardadas</li></ul>
+                    <button class="btn btn-secondary" type="button" data-action="continue-free-plan">Continuar gratis</button>
+                  </article>
+                  <article class="plan-offer-card plan-offer-card-premium">
+                    <span class="plan-offer-label">Recomendado</span>
+                    <h4>Plan Premium</h4>
+                    <strong class="plan-offer-price">Próximamente</strong>
+                    <ul><li>Alertas por carrera</li><li>Plantillas premium</li><li>Seguimiento avanzado</li></ul>
+                    <button class="btn btn-primary" type="button" data-action="choose-premium">Ver Premium</button>
+                  </article>
                 </div>
               </section>
             </div>
