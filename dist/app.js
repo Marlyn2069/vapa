@@ -352,8 +352,9 @@ function saveLastRoute(route) {
 }
 
 const routes = {
-  inicio: renderInicio,
-  home: renderInicio,
+  portada: renderLanding,
+  inicio: () => (getCurrentUser() ? renderInicio() : renderLanding()),
+  home: () => (getCurrentUser() ? renderInicio() : renderLanding()),
   dashboard: renderDashboard,
   postulaciones: renderApplicationsView,
   intro: renderIntro,
@@ -372,6 +373,42 @@ const routes = {
   login: renderLogin,
   register: renderRegister,
 };
+
+function renderLanding() {
+  return `
+    <div class="landing-page reveal">
+      <section class="landing-hero">
+        <div class="landing-copy">
+          <p class="section-kicker">Visualiza • Aprende • Progresa • Avanza</p>
+          <h2>Tu camino hacia una beca empieza aquí.</h2>
+          <p class="lead">VAPA te ayuda a encontrar oportunidades en República Dominicana, entender los requisitos y organizar tus postulaciones paso a paso.</p>
+          <div class="landing-actions">
+            <button class="btn btn-primary" type="button" data-route="login">Iniciar sesión</button>
+            <button class="btn btn-secondary" type="button" data-route="register">Crear cuenta gratis</button>
+          </div>
+          <p class="landing-note">Crea tu cuenta para guardar becas, activar alertas y continuar tu proceso.</p>
+        </div>
+        <div class="landing-visual" aria-label="Resumen de funciones de VAPA">
+          <div class="landing-logo-mark">V</div>
+          <div class="landing-visual-card landing-visual-main">
+            <span class="mini-tag">VAPA</span>
+            <h3>Encuentra oportunidades que impulsen tu futuro.</h3>
+            <div class="landing-progress"><span></span></div>
+            <small>Explora · Prepárate · Postúlate</small>
+          </div>
+          <div class="landing-visual-card landing-visual-float landing-float-one"><strong>🔔 Alertas</strong><span>Nuevas convocatorias</span></div>
+          <div class="landing-visual-card landing-visual-float landing-float-two"><strong>✓ Seguimiento</strong><span>Organiza tus postulaciones</span></div>
+        </div>
+      </section>
+
+      <section class="landing-features" aria-label="Funciones principales">
+        <article><span>01</span><strong>Explora becas</strong><p>Busca por carrera, universidad o institución.</p></article>
+        <article><span>02</span><strong>Prepárate mejor</strong><p>Conoce requisitos, documentos y fechas.</p></article>
+        <article><span>03</span><strong>Avanza con orden</strong><p>Guarda tus postulaciones y recibe alertas.</p></article>
+      </section>
+    </div>
+  `;
+}
 
 function navigate(route) {
   window.location.hash = `#/${route}`;
@@ -2041,6 +2078,7 @@ function bindViewEvents() {
 
 function updateTitle(route) {
   const titles = {
+    portada: "VAPA | Encuentra tu beca",
     inicio: "VAPA | Inicio",
     home: "VAPA | Inicio",
     dashboard: "Cuenta | VAPA",
@@ -2079,7 +2117,7 @@ function updateTitle(route) {
 window.addEventListener("hashchange", renderCurrentView);
 window.addEventListener("DOMContentLoaded", () => {
   if (!window.location.hash) {
-    navigate("inicio");
+    navigate(getCurrentUser() ? "inicio" : "portada");
     return;
   }
 
