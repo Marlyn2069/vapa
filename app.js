@@ -493,7 +493,7 @@ function getRouteParam() {
 }
 
 function activeNavRoute(route = getRoute()) {
-  if (route === "beca" || route === "postular" || route === "postulaciones") {
+  if (route === "beca" || route === "postular") {
     return "buscar";
   }
   return route;
