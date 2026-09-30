@@ -841,15 +841,18 @@ function renderDashboard() {
                 <p class="section-kicker">Elige cómo avanzar</p>
                 <h3 id="planOfferTitle">Tu ruta en VAPA</h3>
                 <p>Comienza gratis o desbloquea herramientas avanzadas para organizar mejor tus oportunidades.</p>
+                <p class="plan-offer-selection" id="planOfferSelection">Selecciona una tarjeta para comparar tu ruta.</p>
                 <div class="plan-offer-cards">
-                  <article class="plan-offer-card">
+                  <article class="plan-offer-card plan-offer-card-basic" data-plan-choice="basic" tabindex="0">
+                    <img src="./assets/plan-options.png" alt="Estudiante organizando sus estudios" />
                     <span class="plan-offer-label">Para empezar</span>
                     <h4>Plan Básico</h4>
                     <strong class="plan-offer-price">Gratis</strong>
                     <ul><li>Buscador de becas</li><li>Guías y documentos</li><li>Postulaciones guardadas</li></ul>
                     <button class="btn btn-secondary" type="button" data-action="continue-free-plan">Continuar gratis</button>
                   </article>
-                  <article class="plan-offer-card plan-offer-card-premium">
+                  <article class="plan-offer-card plan-offer-card-premium" data-plan-choice="premium" tabindex="0">
+                    <img src="./assets/plan-options.png" alt="Estudiantes recibiendo orientación y colaborando" />
                     <span class="plan-offer-label">Recomendado</span>
                     <h4>Plan Premium</h4>
                     <strong class="plan-offer-price">Próximamente</strong>
@@ -1912,6 +1915,25 @@ function updateDynamicFields() {
       landingTopicPanel.innerHTML = `<span class="landing-topic-icon">${topic.icon}</span><div><p class="section-kicker">${topic.label}</p><h4>${topic.title}</h4><p>${topic.description}</p></div>`;
       landingTopicPanel.classList.remove("topic-change");
       window.requestAnimationFrame(() => landingTopicPanel.classList.add("topic-change"));
+    });
+  });
+
+  const planOfferSelection = document.querySelector("#planOfferSelection");
+  const planChoiceCopy = {
+    basic: "Plan Básico seleccionado: explora y organiza gratis durante 3 meses.",
+    premium: "Plan Premium seleccionado: desbloquea alertas, plantillas y seguimiento avanzado.",
+  };
+  document.querySelectorAll("[data-plan-choice]").forEach((card) => {
+    const selectPlan = () => {
+      document.querySelectorAll("[data-plan-choice]").forEach((item) => item.classList.toggle("selected", item === card));
+      if (planOfferSelection) planOfferSelection.textContent = planChoiceCopy[card.dataset.planChoice] || "";
+    };
+    card.addEventListener("click", selectPlan);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectPlan();
+      }
     });
   });
 

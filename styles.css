@@ -3837,7 +3837,15 @@ select {
   margin-top: 20px;
 }
 
+.plan-offer-selection {
+  margin: 16px 0 0;
+  color: var(--primary);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
 .plan-offer-card {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 9px;
@@ -3845,6 +3853,17 @@ select {
   border: 1px solid rgba(109, 40, 217, 0.1);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.74);
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.plan-offer-card:hover,
+.plan-offer-card.selected,
+.plan-offer-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(109, 40, 217, 0.5);
+  box-shadow: 0 16px 30px rgba(75, 29, 110, 0.16);
+  outline: none;
 }
 
 .plan-offer-card-premium {
@@ -3863,6 +3882,22 @@ select {
 .plan-offer-card h4 {
   margin: 0;
   font-size: 1.25rem;
+}
+
+.plan-offer-card > img {
+  width: 100%;
+  height: 92px;
+  display: block;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.plan-offer-card-basic > img {
+  object-position: left center;
+}
+
+.plan-offer-card-premium > img {
+  object-position: right center;
 }
 
 .plan-offer-price {
@@ -3940,6 +3975,11 @@ select {
     column-gap: 12px;
     padding: 14px;
     border-radius: 17px;
+  }
+
+  .plan-offer-card > img {
+    grid-column: 1 / -1;
+    height: 72px;
   }
 
   .plan-offer-card h4,
