@@ -1914,6 +1914,49 @@ select {
   }
 }
 
+/* Each plan card uses a different crop of the photo collage as its background. */
+.plan-offer-card {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.plan-offer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(255, 255, 255, 0.78);
+  pointer-events: none;
+}
+
+.plan-offer-card-premium::after {
+  background: rgba(244, 238, 255, 0.7);
+}
+
+.plan-offer-card > img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  opacity: 0.72;
+  object-fit: cover;
+}
+
+.plan-offer-card > *:not(img) {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-offer-card-basic > img {
+  object-position: left center;
+}
+
+.plan-offer-card-premium > img {
+  object-position: right center;
+}
+
 .app-shell {
   position: relative;
   z-index: 1;
@@ -3999,4 +4042,47 @@ select {
     min-height: auto;
     margin-bottom: 0;
   }
+}
+
+/* Final plan backgrounds override the compact card image layout on every viewport. */
+.plan-offer-card {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.plan-offer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(255, 255, 255, 0.78);
+  pointer-events: none;
+}
+
+.plan-offer-card-premium::after {
+  background: rgba(244, 238, 255, 0.7);
+}
+
+.plan-offer-card > img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  opacity: 0.72;
+  object-fit: cover;
+}
+
+.plan-offer-card > *:not(img) {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-offer-card-basic > img {
+  object-position: left center;
+}
+
+.plan-offer-card-premium > img {
+  object-position: right center;
 }
