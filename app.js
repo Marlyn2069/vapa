@@ -630,6 +630,31 @@ function renderInicio() {
             </div>
           </div>
         </div>
+
+        <section class="home-featured" aria-labelledby="featured-title">
+          <div class="home-featured-head">
+            <div>
+              <p class="section-kicker">Oportunidades para ti</p>
+              <h3 id="featured-title">Becas destacadas</h3>
+            </div>
+            <button class="ghost-btn" type="button" data-route="buscar">Ver todas</button>
+          </div>
+          <div class="home-featured-grid">
+            ${featuredScholarships
+              .map(
+                (item) => `
+                  <article class="home-featured-card">
+                    <span class="mini-tag">${escapeHtml(item.level)}</span>
+                    <h4>${escapeHtml(item.title)}</h4>
+                    <p>${escapeHtml(item.institution)}</p>
+                    <span class="home-featured-date">Cierre: ${escapeHtml(item.closeDate)}</span>
+                    <button class="btn btn-secondary" type="button" data-route="beca/${escapeHtml(item.slug)}">Ver detalle</button>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
+        </section>
       </section>
 
       <section class="section-stack reveal">
