@@ -406,6 +406,44 @@ function renderLanding() {
         <article><span>02</span><strong>Prepárate mejor</strong><p>Conoce requisitos, documentos y fechas.</p></article>
         <article><span>03</span><strong>Avanza con orden</strong><p>Guarda tus postulaciones y recibe alertas.</p></article>
       </section>
+
+      <section class="landing-opportunities">
+        <div class="landing-photo-wrap">
+          <img src="./assets/landing-opportunities.png" alt="Estudiantes estudiando, trabajando en tecnología y recibiendo orientación académica" />
+        </div>
+        <div class="landing-opportunity-copy">
+          <p class="section-kicker">Más posibilidades para tu futuro</p>
+          <h3>Una beca puede abrirte diferentes caminos.</h3>
+          <p>VAPA te ayuda a descubrir oportunidades según tus metas: estudiar una carrera, formarte en tecnología, desarrollar investigación o recibir apoyo para continuar tus estudios.</p>
+          <div class="opportunity-list">
+            <div><span>🎓</span><strong>Universidades</strong><small>Licenciaturas, posgrados y ayudas de admisión.</small></div>
+            <div><span>💻</span><strong>Formación técnica</strong><small>Programas de tecnología, software y áreas STEM.</small></div>
+            <div><span>🌱</span><strong>Liderazgo e investigación</strong><small>Convocatorias que valoran impacto, talento y comunidad.</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="landing-institutions" aria-labelledby="landingInstitutionsTitle">
+        <div class="landing-section-heading">
+          <div>
+            <p class="section-kicker">Instituciones que puedes revisar</p>
+            <h3 id="landingInstitutionsTitle">Empieza por encontrar tu opción.</h3>
+          </div>
+          <button class="ghost-btn" type="button" data-route="login">Explorar con una cuenta</button>
+        </div>
+        <div class="landing-institution-grid">
+          ${universities
+            .map(
+              (university) => `
+                <article class="landing-institution-card">
+                  <span class="institution-initial">${escapeHtml(university.shortName.slice(0, 1))}</span>
+                  <div><strong>${escapeHtml(university.shortName)}</strong><p>${escapeHtml(university.name)}</p><small>${escapeHtml(university.location)}</small></div>
+                </article>
+              `,
+            )
+            .join("")}
+        </div>
+      </section>
     </div>
   `;
 }
