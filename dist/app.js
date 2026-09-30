@@ -297,6 +297,7 @@ const storageKeys = {
   lastRoute: "vapa_last_route",
   alertSubscription: "vapa_alert_subscription",
   planOfferDismissed: "vapa_plan_offer_dismissed",
+  plan: "vapa_plan",
 };
 
 function loadUsers() {
@@ -1285,6 +1286,7 @@ function renderResources() {
 }
 
 function renderAlerts() {
+  const premiumActive = localStorage.getItem(storageKeys.plan) === "premium";
   const subscribed = localStorage.getItem(storageKeys.alertSubscription) === "true";
 
   return layout(
@@ -1292,17 +1294,13 @@ function renderAlerts() {
     "Alertas de becas",
     `
       <div class="alerts-page">
-        <article class="panel-box accent alert-hero">
+        <article class="panel-box accent alert-hero ${premiumActive ? "" : "alert-locked-hero"}">
           <div>
             <p class="section-kicker">Mantente al día</p>
             <h3>Recibe avisos de nuevas oportunidades</h3>
-            <p class="panel-text">Activa las alertas para recibir un mensaje en este dispositivo cuando agreguemos una convocatoria.</p>
+            <p class="panel-text">${premiumActive ? "Activa las alertas para recibir un mensaje en este dispositivo cuando agreguemos una convocatoria." : "Las alertas personalizadas están disponibles con el plan Premium."}</p>
           </div>
-          <label class="switch-row">
-            <input type="checkbox" id="alertSubscription" ${subscribed ? "checked" : ""} />
-            <span class="switch-ui"></span>
-            <strong>${subscribed ? "Alertas activadas" : "Activar alertas"}</strong>
-          </label>
+          ${premiumActive ? `<label class="switch-row"><input type="checkbox" id="alertSubscription" ${subscribed ? "checked" : ""} /><span class="switch-ui"></span><strong>${subscribed ? "Alertas activadas" : "Activar alertas"}</strong></label>` : `<button class="btn btn-primary" type="button" data-route="planes">Desbloquear con Premium</button>`}
         </article>
 
         <div class="alert-feed">
@@ -1348,13 +1346,13 @@ function renderPlans() {
                   <h3>${escapeHtml(plan.price)}</h3>
                   <p>${escapeHtml(plan.description)}</p>
                   <ul class="detail-list">${plan.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}</ul>
-                  <button class="btn ${index === 1 ? "btn-primary" : "btn-secondary"}" type="button" data-action="plan-info" data-plan="${escapeHtml(plan.name)}">${index === 1 ? "Ver opciones premium" : "Usar plan básico"}</button>
+                  <button class="btn ${index === 1 ? "btn-primary" : "btn-secondary"}" type="button" data-action="${index === 1 ? "activate-premium" : "plan-info"}" data-plan="${escapeHtml(plan.name)}">${index === 1 ? "Activar Premium" : "Usar plan básico"}</button>
                 </article>
               `,
             )
             .join("")}
         </div>
-        <p class="form-hint">El plan Premium está preparado como una propuesta de producto; el cobro real se conectará cuando se configure una pasarela de pagos.</p>
+        <p class="form-hint">Plan actual: <strong>${localStorage.getItem(storageKeys.plan) === "premium" ? "Premium" : "Básico"}</strong>. La activación mostrada es una demostración; el cobro real se conectará cuando se configure una pasarela de pagos.</p>
       </div>
     `,
     "dashboard",
@@ -2181,7 +2179,16 @@ function bindViewEvents() {
       return;
     }
 
+    if (action === "activate-premium") {
+      localStorage.setItem(storageKeys.plan, "premium");
+      localStorage.setItem(storageKeys.planOfferDismissed, "true");
+      alert("Premium activado en modo demostración. Ya puedes activar tus alertas.");
+      navigate("alertas");
+      return;
+    }
+
     if (action === "continue-free-plan") {
+      localStorage.setItem(storageKeys.plan, "basic");
       localStorage.setItem(storageKeys.planOfferDismissed, "true");
       renderCurrentView();
       return;
