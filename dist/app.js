@@ -296,6 +296,7 @@ const storageKeys = {
   applications: "vapa_applications",
   lastRoute: "vapa_last_route",
   alertSubscription: "vapa_alert_subscription",
+  planOfferDismissed: "vapa_plan_offer_dismissed",
 };
 
 function loadUsers() {
@@ -700,6 +701,7 @@ function renderInicio() {
 
 function renderDashboard() {
   const user = getCurrentUser();
+  const showPlanOffer = Boolean(user) && localStorage.getItem(storageKeys.planOfferDismissed) !== "true";
 
   return layout(
     "Cuenta",
@@ -736,6 +738,29 @@ function renderDashboard() {
           </div>
         </article>
       </div>
+      ${
+        showPlanOffer
+          ? `
+            <div class="plan-offer-backdrop" role="presentation">
+              <section class="plan-offer" role="dialog" aria-modal="true" aria-labelledby="planOfferTitle">
+                <button class="plan-offer-close" type="button" aria-label="Cerrar oferta" data-action="continue-free-plan">×</button>
+                <p class="section-kicker">Una mejor ruta para tus metas</p>
+                <h3 id="planOfferTitle">Prueba VAPA Premium</h3>
+                <p>Organiza mejor tus postulaciones con alertas, plantillas y herramientas avanzadas.</p>
+                <div class="plan-offer-features">
+                  <span>Alertas por carrera</span>
+                  <span>Plantillas premium</span>
+                  <span>Seguimiento avanzado</span>
+                </div>
+                <div class="plan-offer-actions">
+                  <button class="btn btn-primary" type="button" data-action="choose-premium">Ver plan Premium</button>
+                  <button class="btn btn-secondary" type="button" data-action="continue-free-plan">Continuar con el plan gratuito por 3 meses</button>
+                </div>
+              </section>
+            </div>
+          `
+          : ""
+      }
     `
   );
 }
@@ -1946,9 +1971,9 @@ function bindViewEvents() {
 
   appInteractionsBound = true;
 
-  app.addEventListener("click", (event) => {
+  document.addEventListener("click", (event) => {
     const routeTarget = event.target.closest("[data-route]");
-    if (routeTarget && app.contains(routeTarget)) {
+    if (routeTarget && (app.contains(routeTarget) || routeTarget.closest(".topbar"))) {
       navigate(routeTarget.dataset.route);
       return;
     }
@@ -1987,6 +2012,18 @@ function bindViewEvents() {
       } else {
         navigate("buscar");
       }
+      return;
+    }
+
+    if (action === "choose-premium") {
+      localStorage.setItem(storageKeys.planOfferDismissed, "true");
+      navigate("planes");
+      return;
+    }
+
+    if (action === "continue-free-plan") {
+      localStorage.setItem(storageKeys.planOfferDismissed, "true");
+      renderCurrentView();
       return;
     }
 
