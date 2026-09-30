@@ -2291,6 +2291,15 @@ select {
   box-shadow: 0 12px 22px rgba(109, 40, 217, 0.22);
 }
 
+.nav-label-mobile {
+  display: none;
+}
+
+.plan-offer-open .bottom-nav {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .panel-text {
   margin-top: 0;
 }
@@ -2710,6 +2719,17 @@ select {
     padding: 10px 6px;
     font-size: 0.82rem;
     line-height: 1.1;
+    min-width: 0;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-label-full {
+    display: none;
+  }
+
+  .nav-label-mobile {
+    display: inline;
   }
 
   .auth-shell {

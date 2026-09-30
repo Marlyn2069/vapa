@@ -538,7 +538,8 @@ function layout(title, subtitle, content, navRoute = activeNavRoute()) {
 }
 
 function navItem(route, label, activeRoute) {
-  return `<button type="button" class="bottom-link ${route === activeRoute ? "active" : ""}" data-route="${route}">${label}</button>`;
+  const mobileLabel = label === "Postulaciones" ? "Postular" : label;
+  return `<button type="button" class="bottom-link ${route === activeRoute ? "active" : ""}" data-route="${route}"><span class="nav-label-full">${label}</span><span class="nav-label-mobile">${mobileLabel}</span></button>`;
 }
 
 function renderInicio() {
@@ -1825,6 +1826,7 @@ function renderCurrentView() {
   saveLastRoute(rawRoute || route);
   const view = routes[route]();
   app.innerHTML = view;
+  document.body.classList.toggle("plan-offer-open", Boolean(document.querySelector(".plan-offer-backdrop")));
   updateGlobalHeader();
   bindViewEvents();
   refreshSearchView();
